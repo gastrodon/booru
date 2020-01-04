@@ -1,7 +1,7 @@
-package client
+package booru
 
 import (
-	"github.com/gastrodon/booru/util"
+	"github.com/gastrodon/go-booru/util"
 
 	"fmt"
 	"io"
