@@ -1,3 +1,3 @@
-module github.com/gastrodon/go-booru
+module github.com/gastrodon/booru/
 
 go 1.13

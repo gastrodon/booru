@@ -1,7 +1,7 @@
 package booru
 
 import (
-	"github.com/gastrodon/go-booru/util"
+	"github.com/gastrodon/booru/util"
 
 	"fmt"
 	"io"
