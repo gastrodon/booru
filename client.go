@@ -22,25 +22,20 @@ type Client struct {
  * as they are added when the map is parsed
  */
 func (client Client) make_request(method, endpoint string, query_strings map[string]string, data io.Reader) (response *http.Response, err error) {
-	var parsed_qs = util.FormatQS(client.add_auth_qs(query_strings))
+	var parsed_qs = util.FormatQS(query_strings)
 	var full_url string = fmt.Sprintf("%s%s.json?%s", client.Host, endpoint, parsed_qs)
+
 	var request *http.Request
 	request, err = http.NewRequest(method, full_url, data)
-	if err == nil {
-		response, err = client.http_client.Do(request)
+	if err != nil {
+		return
 	}
 
-	return
-}
+	if client.login != "" && client.key != "" {
+		request.SetBasicAuth(client.login, client.key)
+	}
 
-/*
- * Make a copy of a map of query strings with a client's auth
- * parameters included
- */
-func (client Client) add_auth_qs(query_strings map[string]string) (authed map[string]string) {
-	authed = query_strings
-	authed["login"] = client.login
-	authed["key"] = client.key
+	response, err = client.http_client.Do(request)
 	return
 }
 

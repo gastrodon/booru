@@ -35,24 +35,6 @@ func Test_method_make_request(test *testing.T) {
 	}
 }
 
-func Test_method_Auth(test *testing.T) {
-	var login string = "foo"
-	var key string = "bar"
-	var user Client = Client{}
-	user.Auth(login, key)
-
-	var auth_qs map[string]string = map[string]string{}
-	auth_qs = user.add_auth_qs(auth_qs)
-
-	if auth_qs["login"] != login {
-		test.Errorf("User.login have %s, want %s", auth_qs["login"], login)
-	}
-
-	if auth_qs["key"] != key {
-		test.Errorf("User.key have %s, want %s", auth_qs["key"], key)
-	}
-}
-
 func Test_ClientAt(test *testing.T) {
 	var host string = "foobar"
 	var user Client = ClientAt(host)
