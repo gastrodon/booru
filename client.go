@@ -1,12 +1,24 @@
 package booru
 
 import (
-	"github.com/gastrodon/booru/util"
-
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
+
+/*
+ * Format a map of query strings into a string that may be part of a request
+ */
+func FormatQS(query_strings map[string]string) (formatted string) {
+	var parts []string
+	var current string
+	for _, current = range query_strings {
+		parts = append(parts, fmt.Sprintf("%s=%s", current, query_strings[current]))
+	}
+
+	return strings.Join(parts, "&")
+}
 
 type Client struct {
 	login       string      // username for api calls
@@ -22,7 +34,7 @@ type Client struct {
  * as they are added when the map is parsed
  */
 func (client Client) make_request(method, endpoint string, query_strings map[string]string, data io.Reader) (response *http.Response, err error) {
-	var parsed_qs = util.FormatQS(client.add_auth_qs(query_strings))
+	var parsed_qs = FormatQS(client.add_auth_qs(query_strings))
 	var full_url string = fmt.Sprintf("%s%s.json?%s", client.Host, endpoint, parsed_qs)
 	var request *http.Request
 	request, err = http.NewRequest(method, full_url, data)
