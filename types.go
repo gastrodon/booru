@@ -9,20 +9,28 @@ import (
  */
 type Post struct {
 	Client Client
-	// unparsed tags
+	// Tag info
 	tag_string           string `json:"tag_string"`
 	tag_string_artist    string `json:"tag_string_artist"`
 	tag_string_character string `json:"tag_string_character"`
 	tag_string_copyright string `json:"tag_string_copyright"`
 	tag_string_general   string `json:"tag_string_general"`
 	tag_string_meta      string `json:"tag_string_meta"`
-	// tag counts
-	tag_count           uint `json:"tag_count"`
-	tag_count_artist    uint `json:"tag_count_artist"`
-	tag_count_character uint `json:"tag_count_character"`
-	tag_count_copyright uint `json:"tag_count_copyright"`
-	tag_count_general   uint `json:"tag_count_general"`
-	tag_count_meta      uint `json:"tag_count_meta"`
+	tag_count            uint   `json:"tag_count"`
+	tag_count_artist     uint   `json:"tag_count_artist"`
+	tag_count_character  uint   `json:"tag_count_character"`
+	tag_count_copyright  uint   `json:"tag_count_copyright"`
+	tag_count_general    uint   `json:"tag_count_general"`
+	tag_count_meta       uint   `json:"tag_count_meta"`
+
+	Banned       bool `json:"is_banned"`        // Are posts by this artist banned?
+	Deleted      bool `json:"is_deleted"`       // Was this post deleted?
+	Favorited    bool `json:"is_favorited"`     // Was this post favorited by the requesting client?
+	Flagged      bool `json:"is_flagged"`       // Was this post flagged for moderator review by the requesting client?
+	Pending      bool `json:"is_pending"`       // Is this post pending moderator approval?
+	NoteLocked   bool `json:"is_note_locked"`   // Are the notes on this post locked?
+	RatingLocked bool `json:"is_rating_locked"` // Is the rating on this post locked?
+	StatusLocked bool `json:"is_status_locked"` // Is the status on this post locked?
 }
 
 /*
