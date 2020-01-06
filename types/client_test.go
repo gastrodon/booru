@@ -1,4 +1,4 @@
-package booru
+package types
 
 import (
 	"net/http"
@@ -32,13 +32,5 @@ func Test_method_make_request(test *testing.T) {
 
 	if response.StatusCode != 200 {
 		test.Errorf("response.StatusCode is %d", response.StatusCode)
-	}
-}
-
-func Test_ClientAt(test *testing.T) {
-	var host string = "foobar"
-	var user Client = ClientAt(host)
-	if user.Host != host {
-		test.Errorf("user.Host have %s, want %s", user.Host, host)
 	}
 }

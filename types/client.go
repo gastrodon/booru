@@ -1,4 +1,4 @@
-package booru
+package types
 
 import (
 	"github.com/gastrodon/booru/util"
@@ -57,18 +57,6 @@ func (client Client) get_request_json(endpoint string, query_strings map[string]
 func (client *Client) Auth(login, key string) {
 	client.login = login
 	client.key = key
-}
-
-/*
- * Create a new client that talks to a booru instance at `host`
- * Host should be a valid url with a schema and port (if applicable)
- */
-func ClientAt(host string) (client Client) {
-	client = Client{
-		Host: host,
-	}
-
-	return
 }
 
 /*

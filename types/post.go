@@ -1,4 +1,4 @@
-package booru
+package types
 
 import (
 	"strings"
