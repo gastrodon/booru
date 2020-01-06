@@ -2,18 +2,8 @@ package types
 
 import (
 	"net/http"
-	"os"
 	"testing"
 )
-
-var test_me Client
-
-func TestMain(main *testing.M) {
-	test_me = Client{
-		Host: "https://testbooru.donmai.us/",
-	}
-	os.Exit(main.Run())
-}
 
 func Test_method_make_request(test *testing.T) {
 	var method = "GET"

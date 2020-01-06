@@ -42,7 +42,7 @@ func (client Client) make_request(method, endpoint string, query_strings map[str
 }
 
 /*
- * make a GET request and ony return its body
+ * make a GET request and only return its body
  */
 func (client Client) get_request_body(endpoint string, query_strings map[string]string) (json_bytes []byte, err error) {
 	var response *http.Response
