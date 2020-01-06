@@ -41,7 +41,10 @@ func (client Client) make_request(method, endpoint string, query_strings map[str
 	return
 }
 
-func (client Client) get_request_json(endpoint string, query_strings map[string]string) (json_bytes []byte, err error) {
+/*
+ * make a GET request and ony return its body
+ */
+func (client Client) get_request_body(endpoint string, query_strings map[string]string) (json_bytes []byte, err error) {
 	var response *http.Response
 	response, err = client.make_request("GET", endpoint, query_strings, nil)
 	if err == nil {
@@ -65,7 +68,7 @@ func (client *Client) Auth(login, key string) {
 func (client Client) GetPost(id uint) (post Post, err error) {
 	var endpoint string = fmt.Sprintf("/posts/%d", id)
 	var response_data []byte
-	response_data, err = client.get_request_json(endpoint, map[string]string{})
+	response_data, err = client.get_request_body(endpoint, map[string]string{})
 	if err != nil {
 		return
 	}
