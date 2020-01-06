@@ -3,8 +3,10 @@ package booru
 import (
 	"github.com/gastrodon/booru/util"
 
+	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -39,6 +41,15 @@ func (client Client) make_request(method, endpoint string, query_strings map[str
 	return
 }
 
+func (client Client) get_request_json(endpoint string, query_strings map[string]string) (json_bytes []byte, err error) {
+	var response *http.Response
+	response, err = client.make_request("GET", endpoint, query_strings, nil)
+	if err == nil {
+		json_bytes, err = ioutil.ReadAll(response.Body)
+	}
+	return
+}
+
 /*
  * Give auth params to a client instance
  * This should be done before making most api calls
@@ -57,5 +68,20 @@ func ClientAt(host string) (client Client) {
 		Host: host,
 	}
 
+	return
+}
+
+/*
+ * Get a post by its id
+ */
+func (client Client) GetPost(id uint) (post Post, err error) {
+	var endpoint string = fmt.Sprintf("/posts/%d", id)
+	var response_data []byte
+	response_data, err = client.get_request_json(endpoint, map[string]string{})
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response_data, &post)
 	return
 }
