@@ -9,7 +9,7 @@ import (
  */
 type Post struct {
 	Client Client
-	ID     uint
+	ID     int
 	// Tag info
 	TagString          string `json:"tag_string"`
 	ArtistTagString    string `json:"tag_string_artist"`
@@ -17,12 +17,12 @@ type Post struct {
 	CopyrightTagString string `json:"tag_string_copyright"`
 	GeneralTagString   string `json:"tag_string_general"`
 	MetaTagString      string `json:"tag_string_meta"`
-	TagCount           uint   `json:"tag_count"`
-	ArtistTagCount     uint   `json:"tag_count_artist"`
-	CharacterTagCount  uint   `json:"tag_count_character"`
-	CopyrightTagCount  uint   `json:"tag_count_copyright"`
-	GeneralTagCount    uint   `json:"tag_count_general"`
-	MetaTagCount       uint   `json:"tag_count_meta"`
+	TagCount           int    `json:"tag_count"`
+	ArtistTagCount     int    `json:"tag_count_artist"`
+	CharacterTagCount  int    `json:"tag_count_character"`
+	CopyrightTagCount  int    `json:"tag_count_copyright"`
+	GeneralTagCount    int    `json:"tag_count_general"`
+	MetaTagCount       int    `json:"tag_count_meta"`
 
 	Banned       bool `json:"is_banned"`        // Are posts by this artist banned?
 	Deleted      bool `json:"is_deleted"`       // Was this post deleted?
