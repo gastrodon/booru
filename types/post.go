@@ -43,6 +43,16 @@ type Post struct {
 	FavoriteCount     int    `json:"fav_count"`  // Number of users that have favorited this post
 	CreatedDateString string `json:"created_at"` // Formatted string of post creation datetime
 	UpdatedDateString string `json:"updated_at"` // Formatted string of post last update datetime
+
+	FileURL        string `json:"file_url"`         // URL to this post's media
+	LargeFileURL   string `json:"large_file_url"`   // URL to the full file of this post's media
+	PreviewFileURL string `json:"preview_file_url"` // URL to the preview file of this post's media
+	FileSize       int    `json:"file_size"`        // Size of the file of this post's media
+	FileType       string `json:"file_ext"`         // Type of this post's media file
+	HasLarge       bool   `json:"has_large"`        // Does a large version of this post's media file exist?
+	Width          int    `json:"image_width"`      // Pixel width of this post's media
+	Height         int    `json:"image_height"`     // Pixel height of this post's media
+	BitFlags       int    `json:"bit_flags"`        // I don't know
 }
 
 /*
