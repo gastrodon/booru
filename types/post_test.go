@@ -3,6 +3,7 @@ package types
 import (
 	"strings"
 	"testing"
+	"time"
 )
 
 func Test_Tags(test *testing.T) {
@@ -31,4 +32,44 @@ func Test_tag_types(test *testing.T) {
 	compare_tags(test, test_post.Tags("copyright"), test_post.CopyrightTagString)
 	compare_tags(test, test_post.Tags("general"), test_post.GeneralTagString)
 	compare_tags(test, test_post.Tags("meta"), test_post.MetaTagString)
+}
+
+func Test_CreatedAt(test *testing.T) {
+	var now int64 = time.Now().Unix()
+
+	var created time.Time
+	var err error
+	created, err = test_post.CreatedAt()
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if created.Unix() >= now {
+		test.Errorf("post.CreatedAt is in the future: %d", created.Unix())
+	}
+}
+
+func Test_UpdatedAt(test *testing.T) {
+	var now int64 = time.Now().Unix()
+
+	var updated time.Time
+	var err error
+	updated, err = test_post.UpdatedAt()
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if updated.Unix() >= now {
+		test.Errorf("post.UpdatedAt is in the future: %d", updated.Unix())
+	}
+
+	var created time.Time
+	created, err = test_post.CreatedAt()
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if updated.Unix() < created.Unix() {
+		test.Errorf("post.UpdatedAt is before post.CreatedAt: %d < %d", updated.Unix(), created.Unix())
+	}
 }

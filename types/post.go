@@ -2,6 +2,7 @@ package types
 
 import (
 	"strings"
+	"time"
 )
 
 /*
@@ -9,7 +10,7 @@ import (
  */
 type Post struct {
 	Client Client
-	ID     int
+	ID     int `json:"id"`
 	// Tag info
 	TagString          string `json:"tag_string"`
 	ArtistTagString    string `json:"tag_string_artist"`
@@ -32,6 +33,16 @@ type Post struct {
 	NoteLocked   bool `json:"is_note_locked"`   // Are the notes on this post locked?
 	RatingLocked bool `json:"is_rating_locked"` // Is the rating on this post locked?
 	StatusLocked bool `json:"is_status_locked"` // Is the status on this post locked?
+
+	Source            string `json:"source"`     // Original source of this image
+	Rating            string `json:"rating"`     // Post rating as [s]afe, [q]uestionable, or [e]xplicit
+	Md5               string `json:"md5"`        // Hash of this post's media
+	Score             int    `json:"score"`      // Total vote score
+	UpScore           int    `json:"up_score"`   // Number of users who voted this up
+	DownScore         int    `json:"down_score"` // Number of users who voted this down
+	FavoriteCount     int    `json:"fav_count"`  // Number of users that have favorited this post
+	CreatedDateString string `json:"created_at"` // Formatted string of post creation datetime
+	UpdatedDateString string `json:"updated_at"` // Formatted string of post last update datetime
 }
 
 /*
@@ -69,5 +80,21 @@ func (post Post) Tags(tag_type string) (tags []string) {
 	}
 
 	tags = strings.Split(splittable, " ")
+	return
+}
+
+/*
+ * Get a time object representing some posts creation time
+ */
+func (post Post) CreatedAt() (parsed time.Time, err error) {
+	parsed, err = time.Parse(time.RFC3339, post.CreatedDateString)
+	return
+}
+
+/*
+* Get a time object representing some posts last update time
+ */
+func (post Post) UpdatedAt() (parsed time.Time, err error) {
+	parsed, err = time.Parse(time.RFC3339, post.UpdatedDateString)
 	return
 }
