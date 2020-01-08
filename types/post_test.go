@@ -37,33 +37,37 @@ func Test_tag_types(test *testing.T) {
 func Test_CreatedAt(test *testing.T) {
 	var now int64 = time.Now().Unix()
 
-	var created time.Time
+	var stamp *time.Time
 	var err error
-	created, err = test_post.CreatedAt()
+	stamp, err = test_post.CreatedAt()
 	if err != nil {
 		test.Fatal(err)
 	}
 
-	if created.Unix() >= now {
-		test.Errorf("post.CreatedAt is in the future: %d", created.Unix())
+	if stamp.Unix() >= now {
+		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
 
 func Test_UpdatedAt(test *testing.T) {
 	var now int64 = time.Now().Unix()
 
-	var updated time.Time
+	var updated *time.Time
 	var err error
 	updated, err = test_post.UpdatedAt()
 	if err != nil {
 		test.Fatal(err)
 	}
 
+	if updated == nil {
+		return
+	}
+
 	if updated.Unix() >= now {
 		test.Errorf("post.UpdatedAt is in the future: %d", updated.Unix())
 	}
 
-	var created time.Time
+	var created *time.Time
 	created, err = test_post.CreatedAt()
 	if err != nil {
 		test.Fatal(err)
@@ -71,5 +75,62 @@ func Test_UpdatedAt(test *testing.T) {
 
 	if updated.Unix() < created.Unix() {
 		test.Errorf("post.UpdatedAt is before post.CreatedAt: %d < %d", updated.Unix(), created.Unix())
+	}
+}
+
+func Test_LastCommentAt(test *testing.T) {
+	var now int64 = time.Now().Unix()
+
+	var stamp *time.Time
+	var err error
+	stamp, err = test_post.LastCommentAt()
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if stamp == nil {
+		return
+	}
+
+	if stamp.Unix() >= now {
+		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
+	}
+}
+
+func Test_LastCommentBumpedAt(test *testing.T) {
+	var now int64 = time.Now().Unix()
+
+	var stamp *time.Time
+	var err error
+	stamp, err = test_post.LastCommentBumpedAt()
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if stamp == nil {
+		return
+	}
+
+	if stamp.Unix() >= now {
+		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
+	}
+}
+
+func Test_LastNoteAt(test *testing.T) {
+	var now int64 = time.Now().Unix()
+
+	var stamp *time.Time
+	var err error
+	stamp, err = test_post.LastNoteAt()
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if stamp == nil {
+		return
+	}
+
+	if stamp.Unix() >= now {
+		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }

@@ -112,15 +112,59 @@ func (post Post) Tags(tag_type string) (tags []string) {
 /*
  * Get a time object representing some posts creation time
  */
-func (post Post) CreatedAt() (parsed time.Time, err error) {
-	parsed, err = time.Parse(time.RFC3339, post.CreatedDateString)
+func (post Post) CreatedAt() (parsed *time.Time, err error) {
+	var _time time.Time
+	if post.CreatedDateString != nil {
+		_time, err = time.Parse(time.RFC3339, *post.CreatedDateString)
+		parsed = &_time
+	}
 	return
 }
 
 /*
-* Get a time object representing some posts last update time
+* Get a time object representing some posts last update time, if any
  */
-func (post Post) UpdatedAt() (parsed time.Time, err error) {
-	parsed, err = time.Parse(time.RFC3339, post.UpdatedDateString)
+func (post Post) UpdatedAt() (parsed *time.Time, err error) {
+	var _time time.Time
+	if post.UpdatedDateString != nil {
+		_time, err = time.Parse(time.RFC3339, *post.UpdatedDateString)
+		parsed = &_time
+	}
+	return
+}
+
+/*
+* Get a time object representing some posts last comment time, if any
+ */
+func (post Post) LastCommentAt() (parsed *time.Time, err error) {
+	var _time time.Time
+	if post.LastCommentDateString != nil {
+		_time, err = time.Parse(time.RFC3339, *post.LastCommentDateString)
+		parsed = &_time
+	}
+	return
+}
+
+/*
+* Get a time object representing some posts last comment bump time, if any
+ */
+func (post Post) LastCommentBumpedAt() (parsed *time.Time, err error) {
+	var _time time.Time
+	if post.LastCommentBumpDateString != nil {
+		_time, err = time.Parse(time.RFC3339, *post.LastCommentBumpDateString)
+		parsed = &_time
+	}
+	return
+}
+
+/*
+* Get a time object representing some posts last note add time, if any
+ */
+func (post Post) LastNoteAt() (parsed *time.Time, err error) {
+	var _time time.Time
+	if post.LastNoteDateString != nil {
+		_time, err = time.Parse(time.RFC3339, *post.LastNoteDateString)
+		parsed = &_time
+	}
 	return
 }
