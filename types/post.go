@@ -11,7 +11,7 @@ import (
 type Post struct {
 	Client Client
 	ID     int `json:"id"`
-	// Tag info
+
 	TagString          string `json:"tag_string"`
 	ArtistTagString    string `json:"tag_string_artist"`
 	CharacterTagString string `json:"tag_string_character"`
@@ -34,15 +34,14 @@ type Post struct {
 	RatingLocked bool `json:"is_rating_locked"` // Is the rating on this post locked?
 	StatusLocked bool `json:"is_status_locked"` // Is the status on this post locked?
 
-	Source            string `json:"source"`     // Original source of this image
-	Rating            string `json:"rating"`     // Post rating as [s]afe, [q]uestionable, or [e]xplicit
-	Md5               string `json:"md5"`        // Hash of this post's media
-	Score             int    `json:"score"`      // Total vote score
-	UpScore           int    `json:"up_score"`   // Number of users who voted this up
-	DownScore         int    `json:"down_score"` // Number of users who voted this down
-	FavoriteCount     int    `json:"fav_count"`  // Number of users that have favorited this post
-	CreatedDateString string `json:"created_at"` // Formatted string of post creation datetime
-	UpdatedDateString string `json:"updated_at"` // Formatted string of post last update datetime
+	Source        string `json:"source"`     // Original source of this image
+	PixivID       *int   `json:"pixiv_id"`   // ID of this image on pixiv
+	Rating        string `json:"rating"`     // Post rating as [s]afe, [q]uestionable, or [e]xplicit
+	Md5           string `json:"md5"`        // Hash of this post's media
+	Score         int    `json:"score"`      // Total vote score
+	UpScore       int    `json:"up_score"`   // Number of users who voted this up
+	DownScore     int    `json:"down_score"` // Number of users who voted this down
+	FavoriteCount int    `json:"fav_count"`  // Number of users that have favorited this post
 
 	FileURL        string `json:"file_url"`         // URL to this post's media
 	LargeFileURL   string `json:"large_file_url"`   // URL to the full file of this post's media
@@ -53,6 +52,23 @@ type Post struct {
 	Width          int    `json:"image_width"`      // Pixel width of this post's media
 	Height         int    `json:"image_height"`     // Pixel height of this post's media
 	BitFlags       int    `json:"bit_flags"`        // I don't know
+
+	UploaderID   int    `json:"uploader_id"`   // ID of the uploading user
+	UploaderName string `json:"uploader_name"` // Name of the uploading user
+	ApproverID   *int   `json:"approver_id"`   // ID of the approving user, if approved
+
+	ParentID           *int    `json:"parent_id"`            // ID of the parent of this post, if any
+	PoolString         *string `json:"pool_string"`          // Space separated list of pools that this post is in
+	ChildrenIDsString  *string `json:"children_ids"`         // Space separated list if child ids, if any children
+	HasChildren        bool    `json:"has_children"`         // Does this post have any children?
+	HasVisibleChildren bool    `json:"has_visible_children"` // Does this post have any visible children?
+	HasActiveChildren  bool    `json:"has_active_children"`  // Does this post have any children who's status is active?
+
+	CreatedDateString         *string `json:"created_at"`             // Formatted string of the creation datetime
+	UpdatedDateString         *string `json:"updated_at"`             // Formatted string of the last update datetime
+	LastCommentDateString     *string `json:"last_commented_at"`      // Formatted string of the last comment datetime
+	LastCommentBumpDateString *string `json:"last_comment_bumped_at"` // Formatted string of the last comment bump datetime
+	LastNoteDateString        *string `json:"last_noted_at"`          // Formatted string of the last note datetime
 }
 
 /*
