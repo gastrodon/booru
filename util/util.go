@@ -10,9 +10,9 @@ import (
  */
 func FormatQS(query_strings map[string]string) (formatted string) {
 	var parts []string
-	var current string
-	for _, current = range query_strings {
-		parts = append(parts, fmt.Sprintf("%s=%s", current, query_strings[current]))
+	var key, value string
+	for key, value = range query_strings {
+		parts = append(parts, fmt.Sprintf("%s=%s", key, value))
 	}
 
 	return strings.Join(parts, "&")
