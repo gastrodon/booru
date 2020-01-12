@@ -152,3 +152,57 @@ func Test_GetPosts_Random(test *testing.T) {
 
 	test.Errorf("All posts were sequential")
 }
+
+func Test_GetPostMD5(test *testing.T) {
+	var md5 string = test_post.MD5
+
+	var post Post
+	var err error
+	post, err = test_me.GetPostMD5(md5)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if post.ID != test_post.ID {
+		test.Errorf("Post id mismatch: have %d, want %d", post.ID, test_post.ID)
+	}
+}
+
+func Test_GetPostMD5_NoSuchPost(test *testing.T) {
+	var post Post
+	var err error
+	post, err = test_me.GetPostMD5("")
+	if err == nil {
+		test.Error("No error is returned")
+	}
+
+	if post.ID != 0 {
+		test.Errorf("#%d was retrieved", post.ID)
+	}
+}
+
+func Test_PostMD5Exists(test *testing.T) {
+	var exists bool
+	var err error
+	exists, err = test_me.PostMD5Exists(test_post.MD5)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if !exists {
+		test.Errorf("Post #%d with md5 %s returns as not existing", test_post.ID, test_post.MD5)
+	}
+}
+
+func Test_PostMD5Exists_NoSuchPost(test *testing.T) {
+	var exists bool
+	var err error
+	exists, err = test_me.PostMD5Exists("_")
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if exists {
+		test.Errorf("Empty md5 exists")
+	}
+}

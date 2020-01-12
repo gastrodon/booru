@@ -37,7 +37,7 @@ type Post struct {
 	Source        string `json:"source"`     // Original source of this image
 	PixivID       *int   `json:"pixiv_id"`   // ID of this image on pixiv
 	Rating        string `json:"rating"`     // Post rating as [s]afe, [q]uestionable, or [e]xplicit
-	Md5           string `json:"md5"`        // Hash of this post's media
+	MD5           string `json:"md5"`        // Hash of this post's media
 	Score         int    `json:"score"`      // Total vote score
 	UpScore       int    `json:"up_score"`   // Number of users who voted this up
 	DownScore     int    `json:"down_score"` // Number of users who voted this down

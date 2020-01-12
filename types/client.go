@@ -75,9 +75,36 @@ func (client *Client) Auth(login, key string) {
 func (client Client) GetPost(id int) (post Post, err error) {
 	var response_data []byte
 	response_data, err = client.get_request_body(fmt.Sprintf("/posts/%d", id), map[string]string{})
-
 	if err == nil {
 		err = json.Unmarshal(response_data, &post)
+	}
+
+	return
+}
+
+func (client Client) GetPostMD5(md5 string) (post Post, err error) {
+	var q_strings map[string]string = map[string]string{
+		"md5": md5,
+	}
+
+	var response_data []byte
+	response_data, err = client.get_request_body("/posts", q_strings)
+	if err == nil {
+		err = json.Unmarshal(response_data, &post)
+	}
+
+	return
+}
+
+func (client Client) PostMD5Exists(md5 string) (exists bool, err error) {
+	var q_strings map[string]string = map[string]string{
+		"md5": md5,
+	}
+
+	var response *http.Response
+	response, err = client.make_request("GET", "/posts", q_strings, nil)
+	if err == nil {
+		exists = response.StatusCode == 200
 	}
 
 	return
@@ -108,7 +135,6 @@ func (client Client) GetPosts(tags []string, page, limit int, random, raw bool) 
 
 	var response_data []byte
 	response_data, err = client.get_request_body("/posts", q_strings)
-
 	if err == nil {
 		err = json.Unmarshal(response_data, &results)
 	}
@@ -122,7 +148,6 @@ func (client Client) GetPosts(tags []string, page, limit int, random, raw bool) 
 func (client Client) GetUser(id int) (user User, err error) {
 	var response_data []byte
 	response_data, err = client.get_request_body(fmt.Sprintf("/users/%d", id), map[string]string{})
-
 	if err == nil {
 		err = json.Unmarshal(response_data, &user)
 	}
