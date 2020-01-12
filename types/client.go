@@ -4,6 +4,7 @@ import (
 	"github.com/gastrodon/booru/util"
 
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -50,6 +51,11 @@ func (client Client) get_request_body(endpoint string, query_strings map[string]
 	if err == nil {
 		json_bytes, err = ioutil.ReadAll(response.Body)
 	}
+
+	if response.StatusCode/100 != 2 {
+		err = errors.New(fmt.Sprintf("Request returned code %d\n%s", response.StatusCode, string(json_bytes)))
+	}
+
 	return
 }
 
