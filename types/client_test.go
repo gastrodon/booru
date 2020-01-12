@@ -40,6 +40,21 @@ func Test_GetPost(test *testing.T) {
 	}
 }
 
+func Test_GetPost_NoSuchPost(test *testing.T) {
+	var id = -1
+
+	var post Post
+	var err error
+	post, err = test_me.GetPost(id)
+	if err == nil {
+		test.Error("No error is returned")
+	}
+
+	if post.ID != 0 {
+		test.Errorf("#%d was retrieved", post.ID)
+	}
+}
+
 func Test_GetUser(test *testing.T) {
 	var id int = 9
 
@@ -52,5 +67,20 @@ func Test_GetUser(test *testing.T) {
 
 	if user.ID != id {
 		test.Errorf("ID mismatch have: %d, want: %d", user.ID, id)
+	}
+}
+
+func Test_GetUser_NoSuchUser(test *testing.T) {
+	var id = -1
+
+	var user User
+	var err error
+	user, err = test_me.GetUser(id)
+	if err == nil {
+		test.Error("No error is returned")
+	}
+
+	if user.ID != 0 {
+		test.Errorf("user %d was retrieved", user.ID)
 	}
 }
