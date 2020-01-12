@@ -14,7 +14,7 @@ func Test_method_make_request(test *testing.T) {
 
 	var response *http.Response
 	var err error
-	response, err = test_me.make_request(method, where, qs_map, nil)
+	response, err = test_live.make_request(method, where, qs_map, nil)
 
 	if err != nil {
 		test.Fatal(err)
@@ -31,7 +31,7 @@ func Test_GetPost(test *testing.T) {
 	var post Post
 	var exists bool
 	var err error
-	post, exists, err = test_me.GetPost(id)
+	post, exists, err = test_live.GetPost(id)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -50,7 +50,7 @@ func Test_GetPost_NoSuchPost(test *testing.T) {
 
 	var exists bool
 	var err error
-	_, exists, err = test_me.GetPost(id)
+	_, exists, err = test_live.GetPost(id)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -66,7 +66,7 @@ func Test_GetUser(test *testing.T) {
 	var user User
 	var exists bool
 	var err error
-	user, exists, err = test_me.GetUser(id)
+	user, exists, err = test_live.GetUser(id)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -85,7 +85,7 @@ func Test_GetUser_NoSuchUser(test *testing.T) {
 
 	var exists bool
 	var err error
-	_, exists, err = test_me.GetUser(id)
+	_, exists, err = test_live.GetUser(id)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -102,7 +102,7 @@ func Test_GetPosts(test *testing.T) {
 
 	var results []Post
 	var err error
-	results, err = test_me.GetPosts(tags, page, limit, false, false)
+	results, err = test_live.GetPosts(tags, page, limit, false, false)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -133,7 +133,7 @@ func Test_GetPosts_TooManyPages(test *testing.T) {
 
 	var results []Post
 	var err error
-	results, err = test_me.GetPosts([]string{}, page, 1, false, false)
+	results, err = test_live.GetPosts([]string{}, page, 1, false, false)
 	if err == nil {
 		test.Error("No error is returned")
 	}
@@ -146,7 +146,7 @@ func Test_GetPosts_TooManyPages(test *testing.T) {
 func Test_GetPosts_Random(test *testing.T) {
 	var results []Post
 	var err error
-	results, err = test_me.GetPosts([]string{}, 1, 100, true, false)
+	results, err = test_live.GetPosts([]string{}, 1, 100, true, false)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -169,7 +169,7 @@ func Test_GetPostMD5(test *testing.T) {
 	var post Post
 	var exists bool
 	var err error
-	post, exists, err = test_me.GetPostMD5(md5)
+	post, exists, err = test_live.GetPostMD5(md5)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -186,7 +186,7 @@ func Test_GetPostMD5(test *testing.T) {
 func Test_GetPostMD5_NoSuchPost(test *testing.T) {
 	var exists bool
 	var err error
-	_, exists, err = test_me.GetPostMD5("_")
+	_, exists, err = test_live.GetPostMD5("_")
 	if err != nil {
 		test.Fatal(err)
 	}

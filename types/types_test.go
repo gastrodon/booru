@@ -5,13 +5,13 @@ import (
 	"testing"
 )
 
-var test_me Client
+var test_live Client
 var test_post Post
 
 func TestMain(main *testing.M) {
-	test_me = Client{
+	test_live = Client{
 		Host: "https://danbooru.donmai.us/",
 	}
-	test_post, _, _ = test_me.GetPost(1)
+	test_post, _, _ = test_live.GetPost(1)
 	os.Exit(main.Run())
 }

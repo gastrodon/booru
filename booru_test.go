@@ -7,10 +7,10 @@ import (
 	"testing"
 )
 
-var test_me types.Client
+var test_live types.Client
 
 func TestMain(main *testing.M) {
-	test_me = types.Client{
+	test_live = types.Client{
 		Host: "https://testbooru.donmai.us/",
 	}
 	os.Exit(main.Run())
