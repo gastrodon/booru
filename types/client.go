@@ -65,12 +65,16 @@ func (client *Client) Auth(login, key string) {
 /*
  * Get a post by its id
  */
-func (client Client) GetPost(id uint) (post Post, err error) {
-	var endpoint string = fmt.Sprintf("/posts/%d", id)
+func (client Client) GetPost(id int) (post Post, err error) {
 	var response_data []byte
-	response_data, err = client.get_request_body(endpoint, map[string]string{})
-	if err != nil {
-		return
+	response_data, err = client.get_request_body(fmt.Sprintf("/posts/%d", id), map[string]string{})
+
+	if err == nil {
+		err = json.Unmarshal(response_data, &post)
+	}
+
+	return
+}
 	}
 
 	err = json.Unmarshal(response_data, &post)

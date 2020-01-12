@@ -24,3 +24,19 @@ func Test_method_make_request(test *testing.T) {
 		test.Errorf("response.StatusCode is %d", response.StatusCode)
 	}
 }
+
+func Test_GetPost(test *testing.T) {
+	var id int = 2
+
+	var post Post
+	var err error
+	post, err = test_me.GetPost(id)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if post.ID != id {
+		test.Errorf("ID mismatch have: %d, want: %d", post.ID, id)
+	}
+}
+
