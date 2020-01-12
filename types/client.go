@@ -9,6 +9,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type Client struct {
@@ -77,6 +78,39 @@ func (client Client) GetPost(id int) (post Post, err error) {
 
 	if err == nil {
 		err = json.Unmarshal(response_data, &post)
+	}
+
+	return
+}
+
+/*
+ * Get a list of posts matching search parameters
+ * tags: 	a list of tags to search for
+ * page: 	search page offset, starts at 1
+ * limit: 	maximum number of posts to get
+ * random: 	get posts in random order?
+ * raw: 	disable parsing tag alias parsing?
+ */
+func (client Client) GetPosts(tags []string, page, limit int, random, raw bool) (results []Post, err error) {
+	var q_strings map[string]string = map[string]string{
+		"limit": fmt.Sprintf("%d", limit),
+		"page":  fmt.Sprintf("%d", page),
+		"tags":  strings.Join(tags, " "),
+	}
+
+	if random {
+		q_strings["random"] = "true"
+	}
+
+	if raw {
+		q_strings["raw"] = "true"
+	}
+
+	var response_data []byte
+	response_data, err = client.get_request_body("/posts", q_strings)
+
+	if err == nil {
+		err = json.Unmarshal(response_data, &results)
 	}
 
 	return
