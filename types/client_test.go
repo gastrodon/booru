@@ -29,10 +29,15 @@ func Test_GetPost(test *testing.T) {
 	var id int = 2
 
 	var post Post
+	var exists bool
 	var err error
-	post, err = test_me.GetPost(id)
+	post, exists, err = test_me.GetPost(id)
 	if err != nil {
 		test.Fatal(err)
+	}
+
+	if !exists {
+		test.Errorf("#%d does not exist", id)
 	}
 
 	if post.ID != id {
@@ -43,15 +48,15 @@ func Test_GetPost(test *testing.T) {
 func Test_GetPost_NoSuchPost(test *testing.T) {
 	var id = -1
 
-	var post Post
+	var exists bool
 	var err error
-	post, err = test_me.GetPost(id)
-	if err == nil {
-		test.Error("No error is returned")
+	_, exists, err = test_me.GetPost(id)
+	if err != nil {
+		test.Fatal(err)
 	}
 
-	if post.ID != 0 {
-		test.Errorf("#%d was retrieved", post.ID)
+	if exists {
+		test.Errorf("#%d exists", id)
 	}
 }
 
@@ -59,10 +64,15 @@ func Test_GetUser(test *testing.T) {
 	var id int = 9
 
 	var user User
+	var exists bool
 	var err error
-	user, err = test_me.GetUser(id)
+	user, exists, err = test_me.GetUser(id)
 	if err != nil {
 		test.Fatal(err)
+	}
+
+	if !exists {
+		test.Errorf("user %d does not exist", id)
 	}
 
 	if user.ID != id {
@@ -73,15 +83,15 @@ func Test_GetUser(test *testing.T) {
 func Test_GetUser_NoSuchUser(test *testing.T) {
 	var id = -1
 
-	var user User
+	var exists bool
 	var err error
-	user, err = test_me.GetUser(id)
-	if err == nil {
-		test.Error("No error is returned")
+	_, exists, err = test_me.GetUser(id)
+	if err != nil {
+		test.Fatal(err)
 	}
 
-	if user.ID != 0 {
-		test.Errorf("user %d was retrieved", user.ID)
+	if exists {
+		test.Errorf("user %d exists", id)
 	}
 }
 
@@ -157,10 +167,15 @@ func Test_GetPostMD5(test *testing.T) {
 	var md5 string = test_post.MD5
 
 	var post Post
+	var exists bool
 	var err error
-	post, err = test_me.GetPostMD5(md5)
+	post, exists, err = test_me.GetPostMD5(md5)
 	if err != nil {
 		test.Fatal(err)
+	}
+
+	if !exists {
+		test.Errorf("Post #%d with md5 %s does not exist", post.ID, post.MD5)
 	}
 
 	if post.ID != test_post.ID {
@@ -169,40 +184,14 @@ func Test_GetPostMD5(test *testing.T) {
 }
 
 func Test_GetPostMD5_NoSuchPost(test *testing.T) {
-	var post Post
-	var err error
-	post, err = test_me.GetPostMD5("")
-	if err == nil {
-		test.Error("No error is returned")
-	}
-
-	if post.ID != 0 {
-		test.Errorf("#%d was retrieved", post.ID)
-	}
-}
-
-func Test_PostMD5Exists(test *testing.T) {
 	var exists bool
 	var err error
-	exists, err = test_me.PostMD5Exists(test_post.MD5)
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if !exists {
-		test.Errorf("Post #%d with md5 %s returns as not existing", test_post.ID, test_post.MD5)
-	}
-}
-
-func Test_PostMD5Exists_NoSuchPost(test *testing.T) {
-	var exists bool
-	var err error
-	exists, err = test_me.PostMD5Exists("_")
+	_, exists, err = test_me.GetPostMD5("_")
 	if err != nil {
 		test.Fatal(err)
 	}
 
 	if exists {
-		test.Errorf("Empty md5 exists")
+		test.Error("Post with md5 _ exists")
 	}
 }

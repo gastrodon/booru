@@ -10,8 +10,8 @@ var test_post Post
 
 func TestMain(main *testing.M) {
 	test_me = Client{
-		Host: "https://testbooru.donmai.us/",
+		Host: "https://danbooru.donmai.us/",
 	}
-	test_post, _ = test_me.GetPost(1)
+	test_post, _, _ = test_me.GetPost(1)
 	os.Exit(main.Run())
 }

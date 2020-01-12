@@ -4,7 +4,6 @@ import (
 	"github.com/gastrodon/booru/util"
 
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -46,15 +45,12 @@ func (client Client) make_request(method, endpoint string, query_strings map[str
 /*
  * make a GET request and only return its body
  */
-func (client Client) get_request_body(endpoint string, query_strings map[string]string) (json_bytes []byte, err error) {
+func (client Client) get_request_body(endpoint string, query_strings map[string]string) (json_bytes []byte, code int, err error) {
 	var response *http.Response
 	response, err = client.make_request("GET", endpoint, query_strings, nil)
 	if err == nil {
+		code = response.StatusCode
 		json_bytes, err = ioutil.ReadAll(response.Body)
-	}
-
-	if response.StatusCode/100 != 2 {
-		err = errors.New(fmt.Sprintf("Request returned code %d\n%s", response.StatusCode, string(json_bytes)))
 	}
 
 	return
@@ -72,39 +68,29 @@ func (client *Client) Auth(login, key string) {
 /*
  * Get a post by its id
  */
-func (client Client) GetPost(id int) (post Post, err error) {
+func (client Client) GetPost(id int) (post Post, exists bool, err error) {
 	var response_data []byte
-	response_data, err = client.get_request_body(fmt.Sprintf("/posts/%d", id), map[string]string{})
-	if err == nil {
+	var code int
+	response_data, code, err = client.get_request_body(fmt.Sprintf("/posts/%d", id), map[string]string{})
+	exists = code != 404 && code != 410
+	if err == nil && exists {
 		err = json.Unmarshal(response_data, &post)
 	}
 
 	return
 }
 
-func (client Client) GetPostMD5(md5 string) (post Post, err error) {
+func (client Client) GetPostMD5(md5 string) (post Post, exists bool, err error) {
 	var q_strings map[string]string = map[string]string{
 		"md5": md5,
 	}
 
 	var response_data []byte
-	response_data, err = client.get_request_body("/posts", q_strings)
-	if err == nil {
+	var code int
+	response_data, code, err = client.get_request_body("/posts", q_strings)
+	exists = code != 404 && code != 410
+	if err == nil && exists {
 		err = json.Unmarshal(response_data, &post)
-	}
-
-	return
-}
-
-func (client Client) PostMD5Exists(md5 string) (exists bool, err error) {
-	var q_strings map[string]string = map[string]string{
-		"md5": md5,
-	}
-
-	var response *http.Response
-	response, err = client.make_request("GET", "/posts", q_strings, nil)
-	if err == nil {
-		exists = response.StatusCode == 200
 	}
 
 	return
@@ -134,7 +120,7 @@ func (client Client) GetPosts(tags []string, page, limit int, random, raw bool) 
 	}
 
 	var response_data []byte
-	response_data, err = client.get_request_body("/posts", q_strings)
+	response_data, _, err = client.get_request_body("/posts", q_strings)
 	if err == nil {
 		err = json.Unmarshal(response_data, &results)
 	}
@@ -145,10 +131,12 @@ func (client Client) GetPosts(tags []string, page, limit int, random, raw bool) 
 /*
  * Get a user by their id
  */
-func (client Client) GetUser(id int) (user User, err error) {
+func (client Client) GetUser(id int) (user User, exists bool, err error) {
 	var response_data []byte
-	response_data, err = client.get_request_body(fmt.Sprintf("/users/%d", id), map[string]string{})
-	if err == nil {
+	var code int
+	response_data, code, err = client.get_request_body(fmt.Sprintf("/users/%d", id), map[string]string{})
+	exists = code != 404 && code != 410
+	if err == nil && exists {
 		err = json.Unmarshal(response_data, &user)
 	}
 
