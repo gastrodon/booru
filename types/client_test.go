@@ -40,3 +40,17 @@ func Test_GetPost(test *testing.T) {
 	}
 }
 
+func Test_GetUser(test *testing.T) {
+	var id int = 9
+
+	var user User
+	var err error
+	user, err = test_me.GetUser(id)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if user.ID != id {
+		test.Errorf("ID mismatch have: %d, want: %d", user.ID, id)
+	}
+}

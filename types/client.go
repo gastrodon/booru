@@ -75,8 +75,17 @@ func (client Client) GetPost(id int) (post Post, err error) {
 
 	return
 }
+
+/*
+ * Get a user by their id
+ */
+func (client Client) GetUser(id int) (user User, err error) {
+	var response_data []byte
+	response_data, err = client.get_request_body(fmt.Sprintf("/users/%d", id), map[string]string{})
+
+	if err == nil {
+		err = json.Unmarshal(response_data, &user)
 	}
 
-	err = json.Unmarshal(response_data, &post)
 	return
 }
