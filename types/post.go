@@ -168,3 +168,18 @@ func (post Post) LastNoteAt() (parsed *time.Time, err error) {
 	}
 	return
 }
+
+func (post Post) Uploader() (uploader User, exists bool, err error) {
+	uploader, exists, err = post.Client.GetUser(post.UploaderID)
+	return
+}
+
+func (post Post) Approver() (approver User, exists bool, err error) {
+	if post.ApproverID == nil {
+		exists = false
+		return
+	}
+
+	approver, exists, err = post.Client.GetUser(*post.ApproverID)
+	return
+}

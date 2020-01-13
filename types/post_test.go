@@ -134,3 +134,90 @@ func Test_LastNoteAt(test *testing.T) {
 		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
+
+func Test_Uploader(test *testing.T) {
+	var uploader User
+	var exists bool
+	var err error
+	uploader, exists, err = test_post.Uploader()
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if !exists {
+		test.Errorf("#%d uploader %d does not exist", test_post.ID, test_post.UploaderID)
+	}
+
+	if uploader.ID != test_post.UploaderID {
+		test.Errorf("Uploader id mismatch! have: %d, want: %d", uploader.ID, test_post.UploaderID)
+	}
+}
+
+func Test_Approver(test *testing.T) {
+	var results []Post
+	var err error
+	results, err = test_live.GetPosts([]string{"-approver:none"}, 1, 30, true, false)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if len(results) == 0 {
+		test.Error("No posts were retrieved")
+	}
+
+	var current Post
+	var approver User
+	var exists bool
+	for _, current = range results {
+		approver, exists, err = current.Approver()
+		if err != nil {
+			test.Fatal(err)
+		}
+
+		if current.ApproverID == nil {
+			test.Errorf("#%d is not approved", current.ID)
+			break
+		}
+
+		if !exists {
+			test.Errorf("#%d approver %d does not exist", current.ID, *current.ApproverID)
+		}
+
+		if approver.ID != *current.ApproverID {
+			test.Errorf("Uploader id mismatch on #%d! have: %d, want: %d", current.ID, approver.ID, *current.ApproverID)
+		}
+
+	}
+}
+
+func Test_Approver_NotApproved(test *testing.T) {
+	var results []Post
+	var err error
+	results, err = test_live.GetPosts([]string{"approver:none"}, 1, 30, true, false)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if len(results) == 0 {
+		test.Error("No posts were retrieved")
+	}
+
+	var current Post
+	var approver User
+	var exists bool
+	for _, current = range results {
+		approver, exists, err = current.Approver()
+		if err != nil {
+			test.Fatal(err)
+		}
+
+		if current.ApproverID != nil {
+			test.Errorf("#%d is approved by %d", current.ID, *current.ApproverID)
+		}
+
+		if exists {
+			test.Errorf("unapproved #%d approver is user %d", current.ID, approver.ID)
+		}
+	}
+
+}
