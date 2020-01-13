@@ -147,6 +147,7 @@ func (client Client) GetUser(id int) (user User, exists bool, err error) {
 	exists = code != 404 && code != 410
 	if err == nil && exists {
 		err = json.Unmarshal(response_data, &user)
+		user.Client = client
 	}
 
 	return

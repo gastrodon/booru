@@ -1,8 +1,9 @@
 package types
 
 type User struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"` // This user's username
+	Client Client
+	ID     int    `json:"id"`
+	Name   string `json:"name"` // This user's username
 
 	Level     int    `json:"level"`        // This user's level
 	LevelName string `json:"level_string"` // The name of this user's level

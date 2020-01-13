@@ -144,6 +144,10 @@ func Test_Uploader(test *testing.T) {
 		test.Fatal(err)
 	}
 
+	if uploader.Client.Host != test_live.Host {
+		test.Errorf("Host mismatch! want: %s, have: %s", test_live.Host, uploader.Client.Host)
+	}
+
 	if !exists {
 		test.Errorf("#%d uploader %d does not exist", test_post.ID, test_post.UploaderID)
 	}
@@ -177,6 +181,10 @@ func Test_Approver(test *testing.T) {
 		if current.ApproverID == nil {
 			test.Errorf("#%d is not approved", current.ID)
 			break
+		}
+
+		if approver.Client.Host != test_live.Host {
+			test.Errorf("Host mismatch! want: %s, have: %s", test_live.Host, approver.Client.Host)
 		}
 
 		if !exists {
