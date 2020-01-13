@@ -75,6 +75,7 @@ func (client Client) GetPost(id int) (post Post, exists bool, err error) {
 	exists = code != 404 && code != 410
 	if err == nil && exists {
 		err = json.Unmarshal(response_data, &post)
+		post.Client = client
 	}
 
 	return
@@ -91,6 +92,7 @@ func (client Client) GetPostMD5(md5 string) (post Post, exists bool, err error) 
 	exists = code != 404 && code != 410
 	if err == nil && exists {
 		err = json.Unmarshal(response_data, &post)
+		post.Client = client
 	}
 
 	return
@@ -121,8 +123,15 @@ func (client Client) GetPosts(tags []string, page, limit int, random, raw bool) 
 
 	var response_data []byte
 	response_data, _, err = client.get_request_body("/posts", q_strings)
-	if err == nil {
-		err = json.Unmarshal(response_data, &results)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response_data, &results)
+
+	var index int
+	for index, _ = range results {
+		results[index].Client = client
 	}
 
 	return
