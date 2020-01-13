@@ -18,7 +18,7 @@ func Test_Tags(test *testing.T) {
 	}
 }
 
-func compare_tags(test *testing.T, parsed []string, raw string) {
+func compareTags(test *testing.T, parsed []string, raw string) {
 	var joined string = strings.Join(parsed, " ")
 	if raw != joined {
 		test.Errorf("test_post.TagString mismatch raw: %s, joined: %s", raw, joined)
@@ -26,12 +26,12 @@ func compare_tags(test *testing.T, parsed []string, raw string) {
 }
 
 func Test_tag_types(test *testing.T) {
-	compare_tags(test, test_post.Tags(""), test_post.TagString)
-	compare_tags(test, test_post.Tags("artist"), test_post.ArtistTagString)
-	compare_tags(test, test_post.Tags("character"), test_post.CharacterTagString)
-	compare_tags(test, test_post.Tags("copyright"), test_post.CopyrightTagString)
-	compare_tags(test, test_post.Tags("general"), test_post.GeneralTagString)
-	compare_tags(test, test_post.Tags("meta"), test_post.MetaTagString)
+	compareTags(test, test_post.Tags(""), test_post.TagString)
+	compareTags(test, test_post.Tags("artist"), test_post.ArtistTagString)
+	compareTags(test, test_post.Tags("character"), test_post.CharacterTagString)
+	compareTags(test, test_post.Tags("copyright"), test_post.CopyrightTagString)
+	compareTags(test, test_post.Tags("general"), test_post.GeneralTagString)
+	compareTags(test, test_post.Tags("meta"), test_post.MetaTagString)
 }
 
 func Test_CreatedAt(test *testing.T) {
