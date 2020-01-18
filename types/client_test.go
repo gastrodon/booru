@@ -195,3 +195,23 @@ func Test_GetPostMD5_NoSuchPost(test *testing.T) {
 		test.Error("Post with md5 _ exists")
 	}
 }
+
+func Test_GetPool(test *testing.T) {
+	var id int = 2
+
+	var pool Pool
+	var exists bool
+	var err error
+	pool, exists, err = test_live.GetPool(id)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if !exists {
+		test.Errorf("pool %d does not exist", id)
+	}
+
+	if len(pool.PostIDs) != pool.PostCount {
+		test.Errorf("pool post count mismatch! pool.PostIDs len: %d, pool.PostCount: %d", len(pool.PostIDs), pool.PostCount)
+	}
+}

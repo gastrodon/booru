@@ -152,3 +152,19 @@ func (client Client) GetUser(id int) (user User, exists bool, err error) {
 
 	return
 }
+
+/*
+ * Get a pool by its id
+ */
+func (client Client) GetPool(id int) (pool Pool, exists bool, err error) {
+	var response_data []byte
+	var code int
+	response_data, code, err = client.get_request_body(fmt.Sprintf("/pools/%d", id), map[string]string{})
+	exists = code != 404 && code != 410
+	if err == nil && exists {
+		err = json.Unmarshal(response_data, &pool)
+		pool.Client = client
+	}
+
+	return
+}
