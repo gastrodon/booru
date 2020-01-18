@@ -102,7 +102,6 @@ func (post Post) Tags(tag_type string) (tags []string) {
 	case "meta":
 		splittable = post.MetaTagString
 		break
-	case "all":
 	default:
 		splittable = post.TagString
 		break
