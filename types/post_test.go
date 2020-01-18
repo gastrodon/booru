@@ -27,6 +27,7 @@ func compareTags(test *testing.T, parsed []string, raw string) {
 
 func Test_tag_types(test *testing.T) {
 	compareTags(test, test_post.Tags(""), test_post.TagString)
+	compareTags(test, test_post.Tags("all"), test_post.TagString)
 	compareTags(test, test_post.Tags("artist"), test_post.ArtistTagString)
 	compareTags(test, test_post.Tags("character"), test_post.CharacterTagString)
 	compareTags(test, test_post.Tags("copyright"), test_post.CopyrightTagString)
