@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 /*
@@ -16,4 +17,13 @@ func FormatQS(query_strings map[string]string) (formatted string) {
 	}
 
 	return strings.Join(parts, "&")
+}
+
+func TimeFromPtr(time_string *string) (parsed *time.Time, err error) {
+	var _time time.Time
+	if time_string != nil {
+		_time, err = time.Parse(time.RFC3339, *time_string)
+		parsed = &_time
+	}
+	return
 }
