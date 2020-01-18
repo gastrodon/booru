@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 	"time"
 )
@@ -16,6 +17,7 @@ func FormatQS(query_strings map[string]string) (formatted string) {
 		parts = append(parts, fmt.Sprintf("%s=%s", key, value))
 	}
 
+	sort.Strings(parts)
 	return strings.Join(parts, "&")
 }
 

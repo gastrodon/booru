@@ -6,7 +6,7 @@ import (
 )
 
 func Test_FormatQS(test *testing.T) {
-	var expected string = "foo=bar&baz=qux"
+	var expected string = "baz=qux&foo=bar"
 	var qs map[string]string = map[string]string{
 		"foo": "bar",
 		"baz": "qux",
