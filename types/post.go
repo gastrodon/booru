@@ -148,11 +148,7 @@ func (post Post) LastCommentBumpedAt() (parsed *time.Time, err error) {
  * Get a time object representing some posts last note add time, if any
  */
 func (post Post) LastNoteAt() (parsed *time.Time, err error) {
-	var _time time.Time
-	if post.LastNoteDateString != nil {
-		_time, err = time.Parse(time.RFC3339, *post.LastNoteDateString)
-		parsed = &_time
-	}
+	parsed, err = util.TimeFromPtr(post.LastNoteDateString)
 	return
 }
 
