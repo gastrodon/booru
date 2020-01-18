@@ -121,7 +121,7 @@ func (post Post) CreatedAt() (parsed *time.Time, err error) {
 }
 
 /*
-* Get a time object representing some posts last update time, if any
+ * Get a time object representing some posts last update time, if any
  */
 func (post Post) UpdatedAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(post.UpdatedDateString)
@@ -129,7 +129,7 @@ func (post Post) UpdatedAt() (parsed *time.Time, err error) {
 }
 
 /*
-* Get a time object representing some posts last comment time, if any
+ * Get a time object representing some posts last comment time, if any
  */
 func (post Post) LastCommentAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(post.LastCommentDateString)
@@ -137,7 +137,7 @@ func (post Post) LastCommentAt() (parsed *time.Time, err error) {
 }
 
 /*
-* Get a time object representing some posts last comment bump time, if any
+ * Get a time object representing some posts last comment bump time, if any
  */
 func (post Post) LastCommentBumpedAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(post.LastCommentBumpDateString)
@@ -145,7 +145,7 @@ func (post Post) LastCommentBumpedAt() (parsed *time.Time, err error) {
 }
 
 /*
-* Get a time object representing some posts last note add time, if any
+ * Get a time object representing some posts last note add time, if any
  */
 func (post Post) LastNoteAt() (parsed *time.Time, err error) {
 	var _time time.Time
