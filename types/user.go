@@ -1,5 +1,11 @@
 package types
 
+import (
+	"github.com/gastrodon/booru/util"
+
+	"time"
+)
+
 type User struct {
 	Client Client
 	ID     int    `json:"id"`
@@ -37,4 +43,12 @@ type User struct {
 	PositiveFeedbackCount        int `json:"positive_feedback_count"`
 	NegativeFeedbackCount        int `json:"negative_feedback_count"`
 	NeutralFeedbackCount         int `json:"neutral_feedback_count"`
+}
+
+/*
+* Get a time object representing this account's creation date
+ */
+func (user User) CreatedAt() (parsed *time.Time, err error) {
+	parsed, err = util.TimeFromPtr(user.CreatedDateString)
+	return
 }
