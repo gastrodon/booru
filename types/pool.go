@@ -41,3 +41,26 @@ func (pool Pool) UpdatedAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(pool.UpdatedDateString)
 	return
 }
+
+func (pool Pool) Posts() (posts []Post, err error) {
+	posts = make([]Post, pool.PostCount)
+
+	var buf Post
+	var index, id int
+	for index, id = range pool.PostIDs {
+		buf, _, err = pool.Client.GetPost(id)
+		if err != nil {
+			return
+		}
+
+		buf.Client = pool.Client
+		posts[index] = buf
+	}
+
+	return
+}
+
+func (pool Pool) PostAt(index int) (post Post, exists bool, err error) {
+	post, exists, err = pool.Client.GetPost(pool.PostIDs[index])
+	return
+}
