@@ -64,3 +64,8 @@ func (pool Pool) PostAt(index int) (post Post, exists bool, err error) {
 	post, exists, err = pool.Client.GetPost(pool.PostIDs[index])
 	return
 }
+
+func (pool Pool) Creator() (user User, exists bool, err error) {
+	user, exists, err = pool.Client.GetUser(pool.CreatorID)
+	return
+}
