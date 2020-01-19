@@ -163,6 +163,19 @@ func Test_GetPosts_Random(test *testing.T) {
 	test.Errorf("All posts were sequential")
 }
 
+func Test_GetPosts_Raw(test *testing.T) {
+	var results []Post
+	var err error
+	results, err = test_live.GetPosts([]string{"manga"}, 1, 100, false, true)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if len(results) != 0 {
+		test.Errorf("%d posts were returned, starting with #%d", len(results), results[0].ID)
+	}
+}
+
 func Test_GetPostMD5(test *testing.T) {
 	var md5 string = test_post.MD5
 
