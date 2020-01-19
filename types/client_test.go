@@ -151,13 +151,14 @@ func Test_GetPosts_Random(test *testing.T) {
 		test.Fatal(err)
 	}
 
-	var cap int = len(results) - 1
-	var head int = 1
-	for head != cap {
-		if results[head].ID != results[head-1].ID+1 {
+	var last_id int = results[0].ID
+	var current Post
+	for _, current = range results[1:] {
+		if current.ID > last_id {
 			return
 		}
-		head += 1
+
+		last_id = current.ID
 	}
 
 	test.Errorf("All posts were sequential")
