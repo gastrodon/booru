@@ -229,3 +229,7 @@ func Test_GetPool(test *testing.T) {
 		test.Errorf("pool post count mismatch! pool.PostIDs len: %d, pool.PostCount: %d", len(pool.PostIDs), pool.PostCount)
 	}
 }
+
+func Test_Auth(test *testing.T) {
+	test_auth.Auth(login, key)
+}

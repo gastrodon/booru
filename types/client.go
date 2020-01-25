@@ -168,3 +168,18 @@ func (client Client) GetPool(id int) (pool Pool, exists bool, err error) {
 
 	return
 }
+
+/*
+ * Get the profile that this client is authed with
+ */
+func (client Client) GetProfile() (profile Profile, authed bool, err error) {
+	var response_data []byte
+	var code int
+	response_data, code, err = client.get_request_body("/profile", map[string]string{})
+	authed = code == 200
+	if err == nil && authed {
+		err = json.Unmarshal(response_data, &profile)
+		profile.Client = client
+	}
+	return
+}
