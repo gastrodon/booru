@@ -10,18 +10,18 @@ type Profile struct {
 	InviterID          int    `json:"inviter_id"`           // The id of the user who invited this profile, can also be self
 	ApiRegenMultiplier int    `json:"api_regen_multiplier"` // API quota regeneraton multiplier
 
-	PerPage            int `json:"per_page"`             // Default number of items to get per page in paginated requests
-	MaxSavedSearches   int `json:"max_saved_searches"`   // Save searches cap
-	MaxUploadLimit     int `json:"max_upload_limit"`     // Upload limit cap
-	UploadLimit        int `json:"upload_limit"`         // Current upload limit
-	RemainingApiLimit  int `json:"remaining_api_limit"`  // API quota remaining
-	ApiBurstLimit      int `json:"api_burst_limit"`      // API burst usage limit
-	BaseUploadLimit    int `json:"base_upload_limit"`    // Base max uploads
-	TagQueryLimit      int `json:"tag_query_limit"`      // Max tags per search
-	FavoriteGroupLimit int `json:"favorite_group_limit"` // Max favorite groups
-	FavoriteLimit      int `json:"favorite_limit`        // Max favorite posts
-	StatementTimeout   int `json:"statement_timeout"`
-	CommentThreshold   int `json:"comment_threshold"` // Minimum comment score to be displayed by default
+	PerPage            int     `json:"per_page"`             // Default number of items to get per page in paginated requests
+	MaxSavedSearches   int     `json:"max_saved_searches"`   // Save searches cap
+	MaxUploadLimit     int     `json:"max_upload_limit"`     // Upload limit cap
+	UploadLimit        int     `json:"upload_limit"`         // Current upload limit
+	ApiBurstLimit      int     `json:"api_burst_limit"`      // API burst usage limit
+	BaseUploadLimit    int     `json:"base_upload_limit"`    // Base max uploads
+	TagQueryLimit      int     `json:"tag_query_limit"`      // Max tags per search
+	FavoriteGroupLimit int     `json:"favorite_group_limit"` // Max favorite groups
+	FavoriteLimit      int     `json:"favorite_limit`        // Max favorite posts
+	StatementTimeout   int     `json:"statement_timeout"`
+	CommentThreshold   int     `json:"comment_threshold"`   // Minimum comment score to be displayed by default
+	RemainingApiLimit  float64 `json:"remaining_api_limit"` // API quota remaining. Why is it a float? I don't know
 
 	FlagCount             int `json:"flag_count"`       // Number of posts flagged
 	ForumPostCount        int `json:"forum_post_count"` // Number of forum posts made
