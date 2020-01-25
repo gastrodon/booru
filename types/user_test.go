@@ -6,8 +6,6 @@ import (
 )
 
 func Test_CreatedAt_User(test *testing.T) {
-	var now int64 = time.Now().Unix()
-
 	var stamp *time.Time
 	var err error
 	stamp, err = test_user.CreatedAt()

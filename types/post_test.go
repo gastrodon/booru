@@ -36,8 +36,6 @@ func Test_tag_types(test *testing.T) {
 }
 
 func Test_CreatedAt(test *testing.T) {
-	var now int64 = time.Now().Unix()
-
 	var stamp *time.Time
 	var err error
 	stamp, err = test_post.CreatedAt()
@@ -51,8 +49,6 @@ func Test_CreatedAt(test *testing.T) {
 }
 
 func Test_UpdatedAt(test *testing.T) {
-	var now int64 = time.Now().Unix()
-
 	var updated *time.Time
 	var err error
 	updated, err = test_post.UpdatedAt()
@@ -80,8 +76,6 @@ func Test_UpdatedAt(test *testing.T) {
 }
 
 func Test_LastCommentAt(test *testing.T) {
-	var now int64 = time.Now().Unix()
-
 	var stamp *time.Time
 	var err error
 	stamp, err = test_post.LastCommentAt()
@@ -99,8 +93,6 @@ func Test_LastCommentAt(test *testing.T) {
 }
 
 func Test_LastCommentBumpedAt(test *testing.T) {
-	var now int64 = time.Now().Unix()
-
 	var stamp *time.Time
 	var err error
 	stamp, err = test_post.LastCommentBumpedAt()
@@ -118,8 +110,6 @@ func Test_LastCommentBumpedAt(test *testing.T) {
 }
 
 func Test_LastNoteAt(test *testing.T) {
-	var now int64 = time.Now().Unix()
-
 	var stamp *time.Time
 	var err error
 	stamp, err = test_post.LastNoteAt()

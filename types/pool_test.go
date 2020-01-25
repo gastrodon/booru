@@ -6,8 +6,6 @@ import (
 )
 
 func Test_CreatedAt_Pool(test *testing.T) {
-	var now int64 = time.Now().Unix()
-
 	var stamp *time.Time
 	var err error
 	stamp, err = test_pool.CreatedAt()
@@ -21,8 +19,6 @@ func Test_CreatedAt_Pool(test *testing.T) {
 }
 
 func Test_UpdatedAt_Pool(test *testing.T) {
-	var now int64 = time.Now().Unix()
-
 	var updated *time.Time
 	var err error
 	updated, err = test_pool.UpdatedAt()
