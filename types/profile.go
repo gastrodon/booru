@@ -1,9 +1,16 @@
 package types
 
+import (
+	"github.com/gastrodon/booru/util"
+
+	"time"
+)
+
 /*
  * Represents the authed client on danbooru
  */
 type Profile struct {
+	Client             Client
 	Level              int    `json:"level"`                // This profile's level
 	LevelString        string `json:"level_string"`         // This profile's level's string
 	ID                 int    `json:"id"`                   // The id that points to this profile's user
@@ -92,4 +99,24 @@ type Profile struct {
 	StyleUsernames          bool `json:"style_usernames"`            // Apply styling to usernames?
 	NoFeedback              bool `json:"no_feedback"`
 	NoFlagging              bool `json:"no_flagging"`
+}
+
+func (profile Profile) UpdatedAt() (parsed *time.Time, err error) {
+	parsed, err = util.TimeFromPtr(profile.UpdatedDateString)
+	return
+}
+
+func (profile Profile) CreatedAt() (parsed *time.Time, err error) {
+	parsed, err = util.TimeFromPtr(profile.CreatedDateString)
+	return
+}
+
+func (profile Profile) LastForumReadAt() (parsed *time.Time, err error) {
+	parsed, err = util.TimeFromPtr(profile.LastForumReadDateString)
+	return
+}
+
+func (profile Profile) LastLoggedInAt() (parsed *time.Time, err error) {
+	parsed, err = util.TimeFromPtr(profile.LastLoggedInDateString)
+	return
 }
