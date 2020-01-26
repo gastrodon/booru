@@ -120,3 +120,11 @@ func (profile Profile) LastLoggedInAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(profile.LastLoggedInDateString)
 	return
 }
+
+/*
+ * Get the user attached to this profile
+ */
+func (profile Profile) GetUser() (user User, exists bool, err error) {
+	user, exists, err = profile.Client.GetUser(profile.ID)
+	return
+}

@@ -78,3 +78,25 @@ func Test_LastLoggedInAt_Profile(test *testing.T) {
 		test.Errorf("test_profile.LastLoggedInAt is in the future: %d", stamp.Unix())
 	}
 }
+
+func Test_GetUser_Profile(test *testing.T) {
+	var me User
+	var exists bool
+	var err error
+	me, exists, err = test_profile.GetUser()
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if !exists {
+		test.Errorf("User #%d does not exist!", test_profile.ID)
+	}
+
+	if me.ID != test_profile.ID {
+		test.Errorf("ID mismatch! have: %d, want: %d", me.ID, test_profile.ID)
+	}
+
+	if me.Name != test_profile.Name {
+		test.Errorf("Name mismatch! have: %s, want: %s", me.Name, test_profile.Name)
+	}
+}
