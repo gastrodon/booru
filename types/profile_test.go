@@ -35,7 +35,7 @@ func Test_UpdatedAt_Profile(test *testing.T) {
 		test.Fatal(err)
 	}
 
-	if stamp.Unix() >= now {
+	if stamp.Unix()-1000 >= now {
 		test.Errorf("test_profile.UpdatedAt is in the future: %d", stamp.Unix())
 	}
 }
@@ -48,7 +48,7 @@ func Test_CreatedAt_Profile(test *testing.T) {
 		test.Fatal(err)
 	}
 
-	if stamp.Unix() >= now {
+	if stamp.Unix()-1000 >= now {
 		test.Errorf("test_profile.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
@@ -61,7 +61,7 @@ func Test_LastForumReadAt_Profile(test *testing.T) {
 		test.Fatal(err)
 	}
 
-	if stamp.Unix() >= now {
+	if stamp.Unix()-1000 >= now {
 		test.Errorf("test_profile.LastForumReadAt is in the future: %d", stamp.Unix())
 	}
 }
@@ -74,7 +74,7 @@ func Test_LastLoggedInAt_Profile(test *testing.T) {
 		test.Fatal(err)
 	}
 
-	if stamp.Unix() >= now {
+	if stamp.Unix()-1000 >= now {
 		test.Errorf("test_profile.LastLoggedInAt is in the future: %d", stamp.Unix())
 	}
 }

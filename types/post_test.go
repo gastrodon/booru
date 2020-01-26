@@ -43,7 +43,7 @@ func Test_CreatedAt(test *testing.T) {
 		test.Fatal(err)
 	}
 
-	if stamp.Unix() >= now {
+	if stamp.Unix() - 1000 >= now {
 		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
@@ -87,7 +87,7 @@ func Test_LastCommentAt(test *testing.T) {
 		return
 	}
 
-	if stamp.Unix() >= now {
+	if stamp.Unix() - 1000 >= now {
 		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
@@ -104,7 +104,7 @@ func Test_LastCommentBumpedAt(test *testing.T) {
 		return
 	}
 
-	if stamp.Unix() >= now {
+	if stamp.Unix() - 1000 >= now {
 		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
@@ -121,7 +121,7 @@ func Test_LastNoteAt(test *testing.T) {
 		return
 	}
 
-	if stamp.Unix() >= now {
+	if stamp.Unix() - 1000 >= now {
 		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }

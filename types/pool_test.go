@@ -13,7 +13,7 @@ func Test_CreatedAt_Pool(test *testing.T) {
 		test.Fatal(err)
 	}
 
-	if stamp.Unix() >= now {
+	if stamp.Unix()-1000 >= now {
 		test.Errorf("pool.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
