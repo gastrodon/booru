@@ -102,25 +102,3 @@ func Test_PostAt(test *testing.T) {
 		test.Errorf("ID mismatch at %d! have: #%d, want: #%d", index, post.ID, expected.ID)
 	}
 }
-
-func Test_Creator(test *testing.T) {
-	var creator User
-	var exists bool
-	var err error
-	creator, exists, err = test_pool.Creator()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if !exists {
-		test.Errorf("user %d does not exist", test_pool.CreatorID)
-	}
-
-	if creator.ID != test_pool.CreatorID {
-		test.Errorf("creator ID mismatch! have: %d, want: %d", creator.ID, test_pool.CreatorID)
-	}
-
-	if creator.Name != test_pool.CreatorName {
-		test.Errorf("creator name mismatch! have: %s, want: %s", creator.Name, test_pool.CreatorName)
-	}
-}

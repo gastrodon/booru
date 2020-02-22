@@ -11,10 +11,8 @@ type Pool struct {
 	ID     int    `json:"id"`
 	Name   string `json:"name"` // The name of this pool
 
-	CreatorID   int    `json:"creator_id"`   // ID if the pool's creator
-	CreatorName string `json:"creator_name"` // Name of the pool's creator
-	Category    string `json:"category"`     // The category of this pool
-	Description string `json:"description"`  // The full description of this pool and it's posts
+	Category    string `json:"category"`    // The category of this pool
+	Description string `json:"description"` // The full description of this pool and it's posts
 
 	Active  bool `json:"is_active"`  // Is this pool active?
 	Deleted bool `json:"is_deleted"` // Is this pool deleted?
@@ -62,10 +60,5 @@ func (pool Pool) Posts() (posts []Post, err error) {
 
 func (pool Pool) PostAt(index int) (post Post, exists bool, err error) {
 	post, exists, err = pool.Client.GetPost(pool.PostIDs[index])
-	return
-}
-
-func (pool Pool) Creator() (user User, exists bool, err error) {
-	user, exists, err = pool.Client.GetUser(pool.CreatorID)
 	return
 }
