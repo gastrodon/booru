@@ -40,12 +40,17 @@ func (pool Pool) UpdatedAt() (parsed *time.Time, err error) {
 	return
 }
 
-func (pool Pool) Posts() (posts []Post, err error) {
-	posts = make([]Post, pool.PostCount)
+/*
+ * Get posts (start -> stop) from this pool
+ * Start should be >= 0
+ * Stop should <= total post count (`Pool.PostCount`)
+ */
+func (pool Pool) PostsRange(start, stop int) (posts []Post, err error) {
+	posts = make([]Post, stop-start)
 
 	var buf Post
 	var index, id int
-	for index, id = range pool.PostIDs {
+	for index, id = range pool.PostIDs[start:stop] {
 		buf, _, err = pool.Client.GetPost(id)
 		if err != nil {
 			return
@@ -55,6 +60,11 @@ func (pool Pool) Posts() (posts []Post, err error) {
 		posts[index] = buf
 	}
 
+	return
+}
+
+func (pool Pool) Posts() (posts []Post, err error) {
+	posts, err = pool.PostsRange(0, pool.PostCount)
 	return
 }
 

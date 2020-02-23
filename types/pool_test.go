@@ -45,6 +45,36 @@ func Test_UpdatedAt_Pool(test *testing.T) {
 	}
 }
 
+func Test_PostsRange(test *testing.T) {
+	var start int = 2
+	var stop int = test_pool.PostCount - 2
+	var diff int = 4
+
+	var posts []Post
+	var err error
+	posts, err = test_pool.PostsRange(start, stop)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if len(posts) != test_pool.PostCount-diff {
+		test.Errorf("Post count mismatch! have: %d, want: %d", len(posts), test_pool.PostCount-diff)
+	}
+
+	return
+	var index int
+	var current Post
+	for index, current = range posts[start:stop] {
+		if test_pool.PostIDs[index] != current.ID {
+			test.Errorf("Post mismatch at %d! have: #%d, want: #%d", index, current.ID, test_pool.PostIDs[index])
+		}
+
+		if current.Client.Host != test_pool.Client.Host {
+			test.Errorf("Post client mismatch! %d does not have a client at %s", index, test_pool.Client.Host)
+		}
+	}
+}
+
 func Test_Posts(test *testing.T) {
 	var posts []Post
 	var err error
