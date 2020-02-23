@@ -114,14 +114,11 @@ func (client Client) GetPosts(tags []string, raw bool, page, limit int, random b
 		"limit": fmt.Sprintf("%d", limit),
 		"page":  fmt.Sprintf("%d", page),
 		"tags":  strings.Join(tags, " "),
+		"raw":   fmt.Sprintf("%t", raw),
 	}
 
 	if random {
 		q_strings["random"] = "true"
-	}
-
-	if raw {
-		q_strings["raw"] = "true"
 	}
 
 	var response_data []byte
