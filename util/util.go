@@ -50,6 +50,9 @@ func WrapQS(base string, query_strings map[string]string) (formatted map[string]
 	return
 }
 
+/*
+ * Safely get a Time from a string pointer that may be nil
+ */
 func TimeFromPtr(time_string *string) (parsed *time.Time, err error) {
 	var _time time.Time
 	if time_string != nil {
