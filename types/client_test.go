@@ -102,7 +102,7 @@ func Test_GetPosts(test *testing.T) {
 
 	var results []Post
 	var err error
-	results, err = test_live.GetPosts(tags, page, limit, false, false)
+	results, err = test_live.GetPosts(tags, false, page, limit, false)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -133,7 +133,7 @@ func Test_GetPosts_TooManyPages(test *testing.T) {
 
 	var results []Post
 	var err error
-	results, err = test_live.GetPosts([]string{}, page, 1, false, false)
+	results, err = test_live.GetPosts([]string{}, false, page, 1, false)
 	if err == nil {
 		test.Error("No error is returned")
 	}
@@ -146,7 +146,7 @@ func Test_GetPosts_TooManyPages(test *testing.T) {
 func Test_GetPosts_Random(test *testing.T) {
 	var results []Post
 	var err error
-	results, err = test_live.GetPosts([]string{}, 1, 100, true, false)
+	results, err = test_live.GetPosts([]string{}, false, 1, 100, true)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -167,7 +167,7 @@ func Test_GetPosts_Random(test *testing.T) {
 func Test_GetPosts_Raw(test *testing.T) {
 	var results []Post
 	var err error
-	results, err = test_live.GetPosts([]string{"manga"}, 1, 100, false, true)
+	results, err = test_live.GetPosts([]string{"manga"}, true, 1, 100, false)
 	if err != nil {
 		test.Fatal(err)
 	}

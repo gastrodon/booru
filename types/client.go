@@ -109,7 +109,7 @@ func (client Client) GetPostMD5(md5 string) (post Post, exists bool, err error) 
  * limit:
  * random:
  */
-func (client Client) GetPosts(tags []string, page, limit int, random, raw bool) (results []Post, err error) {
+func (client Client) GetPosts(tags []string, raw bool, page, limit int, random bool) (results []Post, err error) {
 	var q_strings map[string]string = map[string]string{
 		"limit": fmt.Sprintf("%d", limit),
 		"page":  fmt.Sprintf("%d", page),
