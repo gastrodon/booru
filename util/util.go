@@ -10,11 +10,22 @@ import (
 /*
  * Format a map of query strings into a string that may be part of a request
  */
-func FormatQS(query_strings map[string]string) (formatted string) {
-	var parts []string
+func FormatQS(query_strings ...map[string]string) (formatted string) {
+	var total_size int = 0
+	var current map[string]string
+	for _, current = range query_strings {
+		total_size += len(current)
+	}
+
+	var parts []string = make([]string, total_size)
+
+	var index int = 0
 	var key, value string
-	for key, value = range query_strings {
-		parts = append(parts, fmt.Sprintf("%s=%s", key, value))
+	for _, current = range query_strings {
+		for key, value = range current {
+			parts[index] = fmt.Sprintf("%s=%s", key, value)
+			index += 1
+		}
 	}
 
 	sort.Strings(parts)

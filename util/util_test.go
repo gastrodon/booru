@@ -18,6 +18,34 @@ func Test_FormatQS(test *testing.T) {
 	}
 }
 
+func Test_FormatQS_None(test *testing.T) {
+	var expected string = ""
+	var qs map[string]string = map[string]string{}
+
+	var formatted string = FormatQS(qs)
+	if formatted != expected {
+		test.Errorf("FormatQS result want %s, have %s", expected, formatted)
+	}
+}
+
+func Test_FormatQS_Multiple(test *testing.T) {
+	var expected string = "baz=qux&foo=bar&foo=buz&something=else"
+	var qs map[string]string = map[string]string{
+		"foo": "bar",
+		"baz": "qux",
+	}
+	var more_qs map[string]string = map[string]string{
+		"something": "else",
+		"foo":       "buz",
+	}
+
+	var formatted string = FormatQS(qs, more_qs)
+	if formatted != expected {
+		test.Errorf("FormatQS result want %s, have %s", expected, formatted)
+	}
+
+}
+
 func Test_TimeFromPtr(test *testing.T) {
 	var long_ago string = "2007-08-16T17:55:36.905-04:00"
 
