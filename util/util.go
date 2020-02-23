@@ -61,3 +61,19 @@ func TimeFromPtr(time_string *string) (parsed *time.Time, err error) {
 	}
 	return
 }
+
+/*
+ * Macro function for creating a map of common search params
+ */
+func CommonParams(page, limit int, random bool) (query_strings map[string]string) {
+	query_strings = map[string]string{
+		"limit": fmt.Sprintf("%d", limit),
+		"page":  fmt.Sprintf("%d", page),
+	}
+
+	// https://github.com/danbooru/danbooru/issues/4309
+	if random {
+		query_strings["random"] = "true"
+	}
+	return
+}

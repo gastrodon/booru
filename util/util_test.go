@@ -100,3 +100,31 @@ func Test_WrapQS(test *testing.T) {
 		}
 	}
 }
+
+func Test_CommonParams(test *testing.T) {
+	var expected map[string]string = map[string]string{
+		"limit":  "30",
+		"page":   "1",
+		"random": "true",
+	}
+
+	var query_strings map[string]string = CommonParams(1, 30, true)
+
+	var key, value string
+	for key, value = range query_strings {
+		if expected[key] != value {
+			test.Errorf("Value mismatch at %s! have: %s, want: %s", key, value, expected[value])
+		}
+	}
+}
+
+func Test_CommonParams_NoRandom(test *testing.T) {
+	var query_strings map[string]string = CommonParams(1, 1, false)
+
+	var exists bool
+	_, exists = query_strings["random"]
+
+	if exists {
+		test.Errorf("Query string random should not exist but is %s", query_strings["random"])
+	}
+}

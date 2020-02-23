@@ -111,18 +111,12 @@ func (client Client) GetPostMD5(md5 string) (post Post, exists bool, err error) 
  */
 func (client Client) GetPosts(tags []string, raw bool, page, limit int, random bool) (results []Post, err error) {
 	var q_strings map[string]string = map[string]string{
-		"limit": fmt.Sprintf("%d", limit),
-		"page":  fmt.Sprintf("%d", page),
-		"tags":  strings.Join(tags, " "),
-		"raw":   fmt.Sprintf("%t", raw),
-	}
-
-	if random {
-		q_strings["random"] = "true"
+		"tags": strings.Join(tags, " "),
+		"raw":  fmt.Sprintf("%t", raw),
 	}
 
 	var response_data []byte
-	response_data, _, err = client.get_request_body("/posts", q_strings)
+	response_data, _, err = client.get_request_body("/posts", q_strings, util.CommonParams(page, limit, random))
 	if err != nil {
 		return
 	}
