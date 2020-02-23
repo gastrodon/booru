@@ -24,8 +24,8 @@ type Client struct {
  * query strings passed in do not need to include `login` and `key`,
  * as they are added when the map is parsed
  */
-func (client Client) make_request(method, endpoint string, query_strings map[string]string, data io.Reader) (response *http.Response, err error) {
-	var parsed_qs = util.FormatQS(query_strings)
+func (client Client) make_request(method, endpoint string, data io.Reader, query_strings ...map[string]string) (response *http.Response, err error) {
+	var parsed_qs = util.FormatQS(query_strings...)
 	var full_url string = fmt.Sprintf("%s%s.json?%s", client.Host, endpoint, parsed_qs)
 
 	var request *http.Request
@@ -45,9 +45,9 @@ func (client Client) make_request(method, endpoint string, query_strings map[str
 /*
  * make a GET request and only return its body
  */
-func (client Client) get_request_body(endpoint string, query_strings map[string]string) (json_bytes []byte, code int, err error) {
+func (client Client) get_request_body(endpoint string, query_strings ...map[string]string) (json_bytes []byte, code int, err error) {
 	var response *http.Response
-	response, err = client.make_request("GET", endpoint, query_strings, nil)
+	response, err = client.make_request("GET", endpoint, nil, query_strings...)
 	if err == nil {
 		code = response.StatusCode
 		json_bytes, err = ioutil.ReadAll(response.Body)

@@ -14,7 +14,7 @@ func Test_method_make_request(test *testing.T) {
 
 	var response *http.Response
 	var err error
-	response, err = test_live.make_request(method, where, qs_map, nil)
+	response, err = test_live.make_request(method, where, nil, qs_map)
 
 	if err != nil {
 		test.Fatal(err)
