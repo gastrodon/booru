@@ -81,6 +81,9 @@ func (client Client) GetPost(id int) (post Post, exists bool, err error) {
 	return
 }
 
+/*
+ * Get a post that matches some md5
+ */
 func (client Client) GetPostMD5(md5 string) (post Post, exists bool, err error) {
 	var q_strings map[string]string = map[string]string{
 		"md5": md5,
