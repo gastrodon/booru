@@ -43,7 +43,7 @@ func Test_CreatedAt(test *testing.T) {
 		test.Fatal(err)
 	}
 
-	if stamp.Unix() - 1000 >= now {
+	if stamp.Unix()-1000 >= now {
 		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
@@ -87,7 +87,7 @@ func Test_LastCommentAt(test *testing.T) {
 		return
 	}
 
-	if stamp.Unix() - 1000 >= now {
+	if stamp.Unix()-1000 >= now {
 		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
@@ -104,7 +104,7 @@ func Test_LastCommentBumpedAt(test *testing.T) {
 		return
 	}
 
-	if stamp.Unix() - 1000 >= now {
+	if stamp.Unix()-1000 >= now {
 		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
@@ -121,7 +121,7 @@ func Test_LastNoteAt(test *testing.T) {
 		return
 	}
 
-	if stamp.Unix() - 1000 >= now {
+	if stamp.Unix()-1000 >= now {
 		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
 	}
 }
@@ -151,7 +151,7 @@ func Test_Uploader(test *testing.T) {
 func Test_Approver(test *testing.T) {
 	var results []Post
 	var err error
-	results, err = test_live.GetPosts([]string{"-approver:none"}, 1, 30, true, false)
+	results, err = test_live.GetPosts([]string{"-approver:none"}, false, 1, 30, true)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -192,7 +192,7 @@ func Test_Approver(test *testing.T) {
 func Test_Approver_NotApproved(test *testing.T) {
 	var results []Post
 	var err error
-	results, err = test_live.GetPosts([]string{"approver:none"}, 1, 30, true, false)
+	results, err = test_live.GetPosts([]string{"approver:none"}, false, 1, 30, true)
 	if err != nil {
 		test.Fatal(err)
 	}
