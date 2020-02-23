@@ -1,7 +1,9 @@
 package types
 
 import (
+	"fmt"
 	"net/http"
+	"strings"
 	"testing"
 )
 
@@ -175,6 +177,72 @@ func Test_GetPosts_Raw(test *testing.T) {
 	if len(results) != 0 {
 		test.Errorf("%d posts were returned, starting with #%d", len(results), results[0].ID)
 	}
+}
+
+func Test_GetUsers(test *testing.T) {
+	var results []User
+	var err error
+	results, err = test_live.GetUsers(map[string]string{}, 1, 20)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	var exists bool
+	var current User
+	for _, current = range results {
+		_, exists, err = test_live.GetUser(current.ID)
+		if err != nil {
+			test.Fatal(err)
+		}
+
+		if !exists {
+			test.Errorf("User %d does not exist!", current.ID)
+		}
+	}
+}
+
+func Test_GetUsers_Name(test *testing.T) {
+	var random_posts []Post
+	random_posts, _ = test_live.GetPosts([]string{}, false, 1, 1, true)
+
+	var random_author User
+	random_author, _, _ = random_posts[0].Uploader()
+
+	var search map[string]string = map[string]string{
+		"name": random_author.Name,
+	}
+	var results []User
+	var err error
+	results, err = test_live.GetUsers(search, 1, 1)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if results[0].Name != random_author.Name {
+		test.Errorf("Name mismatch! have: %s, want: %s", results[0].Name, random_author.Name)
+	}
+}
+
+func Test_GetUsers_Pattern(test *testing.T) {
+	var prefix string = "gas"
+	var search map[string]string = map[string]string{
+		"name": fmt.Sprintf("%s*", prefix),
+	}
+
+	var results []User
+	var err error
+	results, err = test_live.GetUsers(search, 1, 100)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	var current User
+	for _, current = range results {
+		if !strings.HasPrefix(strings.ToLower(current.Name), prefix) {
+			test.Errorf("Name pattern mismatch! want matching: %s*, have %s", prefix, current.Name)
+		}
+	}
+
 }
 
 func Test_GetPostMD5(test *testing.T) {
