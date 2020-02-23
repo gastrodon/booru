@@ -104,10 +104,10 @@ func (client Client) GetPostMD5(md5 string) (post Post, exists bool, err error) 
 /*
  * Get a list of posts matching search parameters
  * tags: 	a list of tags to search for
- * page: 	search page offset, starts at 1
- * limit: 	maximum number of posts to get
- * random: 	get posts in random order?
  * raw: 	disable parsing tag alias parsing?
+ * page:
+ * limit:
+ * random:
  */
 func (client Client) GetPosts(tags []string, page, limit int, random, raw bool) (results []Post, err error) {
 	var q_strings map[string]string = map[string]string{
