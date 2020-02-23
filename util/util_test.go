@@ -51,3 +51,24 @@ func Test_TimeFromPtr_nil(test *testing.T) {
 		test.Errorf("time for nil is not nil, but instead %d (%p)", when.Unix(), when)
 	}
 }
+
+func Test_WrapQS(test *testing.T) {
+	var expected_inverse map[string]string = map[string]string{
+		"42069":  "foo[time]",
+		"Mizuki": "foo[name]",
+	}
+
+	var base string = "foo"
+	var qs map[string]string = map[string]string{
+		"time": "42069",
+		"name": "Mizuki",
+	}
+
+	var transformed map[string]string = WrapQS(base, qs)
+	var key, value string
+	for key, value = range transformed {
+		if key != expected_inverse[value] {
+			test.Errorf("wrapped key mismatch! have: %s, want: %s", key, expected_inverse[value])
+		}
+	}
+}
