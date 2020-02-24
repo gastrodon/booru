@@ -55,9 +55,11 @@ func Test_CreatedAt_Profile(test *testing.T) {
 func Test_LastForumReadAt_Profile(test *testing.T) {
 	OkDate(test, test_profile.LastForumReadAt, "test_profile.LastForumReadAt")
 }
+
 func Test_LastLoggedInAt_Profile(test *testing.T) {
 	OkDate(test, test_profile.LastLoggedInAt, "test_profile.LastLoggedInAt")
 }
+
 func Test_GetUser_Profile(test *testing.T) {
 	var me User
 	var exists bool

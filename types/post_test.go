@@ -73,25 +73,7 @@ func Test_LastNoteAt(test *testing.T) {
 }
 
 func Test_Uploader(test *testing.T) {
-	var uploader User
-	var exists bool
-	var err error
-	uploader, exists, err = test_post.Uploader()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if uploader.Client.Host != test_live.Host {
-		test.Errorf("Host mismatch! want: %s, have: %s", test_live.Host, uploader.Client.Host)
-	}
-
-	if !exists {
-		test.Errorf("#%d uploader %d does not exist", test_post.ID, test_post.UploaderID)
-	}
-
-	if uploader.ID != test_post.UploaderID {
-		test.Errorf("Uploader id mismatch! have: %d, want: %d", uploader.ID, test_post.UploaderID)
-	}
+	OkUser(test, test_post.Uploader, test_post.UploaderID)
 }
 
 func Test_Approver(test *testing.T) {
@@ -108,28 +90,11 @@ func Test_Approver(test *testing.T) {
 
 	var current Post
 	var approver User
-	var exists bool
 	for _, current = range results {
-		approver, exists, err = current.Approver()
-		if err != nil {
-			test.Fatal(err)
-		}
-
-		if current.ApproverID == nil {
-			test.Errorf("#%d is not approved", current.ID)
-			break
-		}
-
+		OkUser(test, current.Approver, *current.ApproverID)
+		approver, _, err = current.Approver()
 		if approver.Client.Host != test_live.Host {
 			test.Errorf("Host mismatch! want: %s, have: %s", test_live.Host, approver.Client.Host)
-		}
-
-		if !exists {
-			test.Errorf("#%d approver %d does not exist", current.ID, *current.ApproverID)
-		}
-
-		if approver.ID != *current.ApproverID {
-			test.Errorf("Uploader id mismatch on #%d! have: %d, want: %d", current.ID, approver.ID, *current.ApproverID)
 		}
 
 	}

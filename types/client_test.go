@@ -28,23 +28,7 @@ func Test_method_make_request(test *testing.T) {
 }
 
 func Test_GetPost(test *testing.T) {
-	var id int = 2
-
-	var post Post
-	var exists bool
-	var err error
-	post, exists, err = test_live.GetPost(id)
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if !exists {
-		test.Errorf("#%d does not exist", id)
-	}
-
-	if post.ID != id {
-		test.Errorf("ID mismatch have: %d, want: %d", post.ID, id)
-	}
+	OkPost(test, get_callable_post(2), 2)
 }
 
 func Test_GetPost_NoSuchPost(test *testing.T) {
@@ -63,23 +47,8 @@ func Test_GetPost_NoSuchPost(test *testing.T) {
 }
 
 func Test_GetUser(test *testing.T) {
-	var id int = 9
+	OkUser(test, get_callable_user(9), 9)
 
-	var user User
-	var exists bool
-	var err error
-	user, exists, err = test_live.GetUser(id)
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if !exists {
-		test.Errorf("user %d does not exist", id)
-	}
-
-	if user.ID != id {
-		test.Errorf("ID mismatch have: %d, want: %d", user.ID, id)
-	}
 }
 
 func Test_GetUser_NoSuchUser(test *testing.T) {
