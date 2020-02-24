@@ -36,32 +36,17 @@ func Test_tag_types(test *testing.T) {
 }
 
 func Test_CreatedAt(test *testing.T) {
-	var stamp *time.Time
-	var err error
-	stamp, err = test_post.CreatedAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if stamp.Unix()-1000 >= now {
-		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
-	}
+	OkDate(test, test_post.CreatedAt, "test_post.CreatedAt")
 }
 
 func Test_UpdatedAt(test *testing.T) {
+	OkDate(test, test_post.UpdatedAt, "test_post.UpdatedAt")
+
 	var updated *time.Time
 	var err error
 	updated, err = test_post.UpdatedAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
 	if updated == nil {
 		return
-	}
-
-	if updated.Unix() >= now {
-		test.Errorf("post.UpdatedAt is in the future: %d", updated.Unix())
 	}
 
 	var created *time.Time
@@ -76,54 +61,15 @@ func Test_UpdatedAt(test *testing.T) {
 }
 
 func Test_LastCommentAt(test *testing.T) {
-	var stamp *time.Time
-	var err error
-	stamp, err = test_post.LastCommentAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if stamp == nil {
-		return
-	}
-
-	if stamp.Unix()-1000 >= now {
-		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
-	}
+	OkDate(test, test_post.LastCommentAt, "test_post.LastCommentAt")
 }
 
 func Test_LastCommentBumpedAt(test *testing.T) {
-	var stamp *time.Time
-	var err error
-	stamp, err = test_post.LastCommentBumpedAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if stamp == nil {
-		return
-	}
-
-	if stamp.Unix()-1000 >= now {
-		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
-	}
+	OkDate(test, test_post.LastCommentBumpedAt, "test_post.LastCommentBumpedAt")
 }
 
 func Test_LastNoteAt(test *testing.T) {
-	var stamp *time.Time
-	var err error
-	stamp, err = test_post.LastNoteAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if stamp == nil {
-		return
-	}
-
-	if stamp.Unix()-1000 >= now {
-		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
-	}
+	OkDate(test, test_post.LastNoteAt, "test_post.LastNoteAt")
 }
 
 func Test_Uploader(test *testing.T) {

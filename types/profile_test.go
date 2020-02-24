@@ -28,57 +28,36 @@ func Test_GetProfile(test *testing.T) {
 }
 
 func Test_UpdatedAt_Profile(test *testing.T) {
-	var stamp *time.Time
+	OkDate(test, test_profile.UpdatedAt, "test_profile.UpdatedAt")
+
+	var updated *time.Time
 	var err error
-	stamp, err = test_profile.UpdatedAt()
+	updated, err = test_profile.UpdatedAt()
 	if err != nil {
 		test.Fatal(err)
 	}
 
-	if stamp.Unix()-1000 >= now {
-		test.Errorf("test_profile.UpdatedAt is in the future: %d", stamp.Unix())
+	var created *time.Time
+	created, err = test_post.CreatedAt()
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if updated.Unix() < created.Unix() {
+		test.Errorf("test_profile.UpdatedAt is before test_profile.CreatedAt: %d < %d", updated.Unix(), created.Unix())
 	}
 }
 
 func Test_CreatedAt_Profile(test *testing.T) {
-	var stamp *time.Time
-	var err error
-	stamp, err = test_profile.CreatedAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if stamp.Unix()-1000 >= now {
-		test.Errorf("test_profile.CreatedAt is in the future: %d", stamp.Unix())
-	}
+	OkDate(test, test_profile.CreatedAt, "test_profile.CreatedAt")
 }
 
 func Test_LastForumReadAt_Profile(test *testing.T) {
-	var stamp *time.Time
-	var err error
-	stamp, err = test_profile.LastForumReadAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if stamp.Unix()-1000 >= now {
-		test.Errorf("test_profile.LastForumReadAt is in the future: %d", stamp.Unix())
-	}
+	OkDate(test, test_profile.LastForumReadAt, "test_profile.LastForumReadAt")
 }
-
 func Test_LastLoggedInAt_Profile(test *testing.T) {
-	var stamp *time.Time
-	var err error
-	stamp, err = test_profile.LastLoggedInAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if stamp.Unix()-1000 >= now {
-		test.Errorf("test_profile.LastLoggedInAt is in the future: %d", stamp.Unix())
-	}
+	OkDate(test, test_profile.LastLoggedInAt, "test_profile.LastLoggedInAt")
 }
-
 func Test_GetUser_Profile(test *testing.T) {
 	var me User
 	var exists bool

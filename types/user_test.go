@@ -2,18 +2,8 @@ package types
 
 import (
 	"testing"
-	"time"
 )
 
 func Test_CreatedAt_User(test *testing.T) {
-	var stamp *time.Time
-	var err error
-	stamp, err = test_user.CreatedAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if stamp.Unix() - 1000 >= now {
-		test.Errorf("post.CreatedAt is in the future: %d", stamp.Unix())
-	}
+	OkDate(test, test_user.CreatedAt, "test_user.CreatedAt")
 }

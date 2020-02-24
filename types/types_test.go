@@ -36,3 +36,20 @@ func TestMain(main *testing.M) {
 	now = time.Now().Unix()
 	os.Exit(main.Run())
 }
+
+func OkDate(test *testing.T, callable func() (*time.Time, error), label string) {
+	var stamp *time.Time
+	var err error
+	stamp, err = callable()
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if stamp == nil {
+		return
+	}
+
+	if stamp.Unix()-1000 >= now {
+		test.Errorf("%s is in the future: %d", label, stamp.Unix())
+	}
+}

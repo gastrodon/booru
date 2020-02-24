@@ -6,32 +6,17 @@ import (
 )
 
 func Test_CreatedAt_Pool(test *testing.T) {
-	var stamp *time.Time
-	var err error
-	stamp, err = test_pool.CreatedAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
-	if stamp.Unix()-1000 >= now {
-		test.Errorf("pool.CreatedAt is in the future: %d", stamp.Unix())
-	}
+	OkDate(test, test_pool.CreatedAt, "pool.CreatedAt")
 }
 
 func Test_UpdatedAt_Pool(test *testing.T) {
+	OkDate(test, test_pool.UpdatedAt, "pool.UpdatedAt")
+
 	var updated *time.Time
 	var err error
 	updated, err = test_pool.UpdatedAt()
-	if err != nil {
-		test.Fatal(err)
-	}
-
 	if updated == nil {
 		return
-	}
-
-	if updated.Unix() >= now {
-		test.Errorf("pool.UpdatedAt is in the future: %d", updated.Unix())
 	}
 
 	var created *time.Time
