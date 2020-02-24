@@ -19,6 +19,15 @@ type Client struct {
 	Host string // base url for all api calls
 }
 
+var (
+	categoryIDs map[string]int = map[string]int{
+		"general":   0,
+		"artist":    1,
+		"copyright": 3,
+		"character": 4,
+	}
+)
+
 /*
  * Make a request to an endpoint of this clients host
  * query strings passed in do not need to include `login` and `key`,
@@ -212,6 +221,9 @@ func (client Client) GetProfile() (profile Profile, authed bool, err error) {
 	return
 }
 
+/*
+ * Get a comment by its id
+ */
 func (client Client) GetComment(id int) (comment Comment, exists bool, err error) {
 	var response_data []byte
 	var code int
@@ -220,6 +232,29 @@ func (client Client) GetComment(id int) (comment Comment, exists bool, err error
 	if err == nil && exists {
 		err = json.Unmarshal(response_data, &comment)
 		comment.Client = client
+	}
+
+	return
+}
+
+/*
+ * Get related tags to some tag
+ * tag:			the tag to query related tags of
+ * category: 	can be one of any, general, artist, copyright, character
+ */
+func (client Client) GetRelatedTags(tag, category string) (related RelatedTagResponse, err error) {
+	var query map[string]string = map[string]string{
+		"query": tag,
+	}
+
+	if category != "all" {
+		query["category"] = fmt.Sprintf("%d", categoryIDs[category])
+	}
+
+	var response_data []byte
+	response_data, _, err = client.get_request_body("/related_tag", query)
+	if err == nil {
+		err = json.Unmarshal(response_data, &related)
 	}
 
 	return
