@@ -211,3 +211,16 @@ func (client Client) GetProfile() (profile Profile, authed bool, err error) {
 	}
 	return
 }
+
+func (client Client) GetComment(id int) (comment Comment, exists bool, err error) {
+	var response_data []byte
+	var code int
+	response_data, code, err = client.get_request_body(fmt.Sprintf("/comments/%d", id), map[string]string{})
+	exists = code != 404 && code != 410
+	if err == nil && exists {
+		err = json.Unmarshal(response_data, &comment)
+		comment.Client = client
+	}
+
+	return
+}
