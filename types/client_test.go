@@ -67,7 +67,7 @@ func Test_GetUser_NoSuchUser(test *testing.T) {
 }
 
 func Test_GetPosts(test *testing.T) {
-	var tags []string = []string{"solo"}
+	var tags []string = []string{"solo", "1girl"}
 	var page int = 1
 	var limit int = 20
 

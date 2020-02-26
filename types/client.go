@@ -120,7 +120,7 @@ func (client Client) GetPostMD5(md5 string) (post Post, exists bool, err error) 
  */
 func (client Client) GetPosts(tags []string, raw bool, page, limit int, random bool) (results []Post, err error) {
 	var q_strings map[string]string = map[string]string{
-		"tags": strings.Join(tags, " "),
+		"tags": strings.Join(tags, "+"),
 		"raw":  fmt.Sprintf("%t", raw),
 	}
 
