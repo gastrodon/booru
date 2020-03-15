@@ -6,6 +6,9 @@ import (
 	"time"
 )
 
+/*
+ Represents a comment on a post on danbooru
+*/
 type Comment struct {
 	Client    Client
 	ID        int `json:"id"`

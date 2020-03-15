@@ -6,6 +6,9 @@ import (
 	"time"
 )
 
+/*
+ Represents a user on danbooru
+*/
 type User struct {
 	Client Client
 	ID     int    `json:"id"`
@@ -46,8 +49,8 @@ type User struct {
 }
 
 /*
- * Get a time object representing this account's creation date
- */
+ Get a time object representing this account's creation date
+*/
 func (user User) CreatedAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(user.CreatedDateString)
 	return

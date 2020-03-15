@@ -7,8 +7,8 @@ import (
 )
 
 /*
- * Represents the authed client on danbooru
- */
+ Represents the authed client on danbooru
+*/
 type Profile struct {
 	Client             Client
 	Level              int    `json:"level"`                // This profile's level

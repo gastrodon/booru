@@ -8,8 +8,8 @@ import (
 )
 
 /*
- * Represents a media post on *booru
- */
+ Represents a media post on danbooru
+*/
 type Post struct {
 	Client Client
 	ID     int `json:"id"`
@@ -75,15 +75,15 @@ type Post struct {
 }
 
 /*
- * Get all of the tags of a type of this post
- *
- * artist: 		tags of the artists who made this post
- * character: 	tags of the characters in this post
- * copyright: 	tags of the source material for this post
- * general: 	tags that describe the content of this post
- * meta: 		tags that describe the properties of this post
- * all: 		all tags of all types
- */
+ Get all of the tags of a type of this post
+
+ artist: 		tags of the artists who made this post
+ character: 	tags of the characters in this post
+ copyright: 	tags of the source material for this post
+ general: 	tags that describe the content of this post
+ meta: 		tags that describe the properties of this post
+ all: 		all tags of all types
+*/
 func (post Post) Tags(tag_type string) (tags []string) {
 	var splittable string
 	switch tag_type {
@@ -112,40 +112,40 @@ func (post Post) Tags(tag_type string) (tags []string) {
 }
 
 /*
- * Get a time object representing some posts creation time
- */
+ Get a time object representing some posts creation time
+*/
 func (post Post) CreatedAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(post.CreatedDateString)
 	return
 }
 
 /*
- * Get a time object representing some posts last update time, if any
- */
+ Get a time object representing some posts last update time, if any
+*/
 func (post Post) UpdatedAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(post.UpdatedDateString)
 	return
 }
 
 /*
- * Get a time object representing some posts last comment time, if any
- */
+ Get a time object representing some posts last comment time, if any
+*/
 func (post Post) LastCommentAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(post.LastCommentDateString)
 	return
 }
 
 /*
- * Get a time object representing some posts last comment bump time, if any
- */
+ Get a time object representing some posts last comment bump time, if any
+*/
 func (post Post) LastCommentBumpedAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(post.LastCommentBumpDateString)
 	return
 }
 
 /*
- * Get a time object representing some posts last note add time, if any
- */
+ Get a time object representing some posts last note add time, if any
+*/
 func (post Post) LastNoteAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(post.LastNoteDateString)
 	return

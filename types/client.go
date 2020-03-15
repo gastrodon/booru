@@ -29,10 +29,10 @@ var (
 )
 
 /*
- * Make a request to an endpoint of this clients host
- * query strings passed in do not need to include `login` and `key`,
- * as they are added when the map is parsed
- */
+ Make a request to an endpoint of this clients host
+ query strings passed in do not need to include `login` and `key`,
+ as they are added when the map is parsed
+*/
 func (client Client) make_request(method, endpoint string, data io.Reader, query_strings ...map[string]string) (response *http.Response, err error) {
 	var parsed_qs = util.FormatQS(query_strings...)
 	var full_url string = fmt.Sprintf("%s%s.json?%s", client.Host, endpoint, parsed_qs)
@@ -52,8 +52,8 @@ func (client Client) make_request(method, endpoint string, data io.Reader, query
 }
 
 /*
- * make a GET request and only return its body
- */
+ make a GET request and only return its body
+*/
 func (client Client) get_request_body(endpoint string, query_strings ...map[string]string) (json_bytes []byte, code int, err error) {
 	var response *http.Response
 	response, err = client.make_request("GET", endpoint, nil, query_strings...)
@@ -66,8 +66,8 @@ func (client Client) get_request_body(endpoint string, query_strings ...map[stri
 }
 
 /*
-GET an api resource if it exists.
-If it does not, return an empty response
+ GET an api resource if it exists.
+ If it does not, return an empty response
 */
 func (client Client) get_if_exists(endpoint string, query_strings ...map[string]string) (json_bytes []byte, exists bool, err error) {
 	var code int
@@ -77,17 +77,17 @@ func (client Client) get_if_exists(endpoint string, query_strings ...map[string]
 }
 
 /*
- * Give auth params to a client instance
- * This should be done before making most api calls
- */
+ Give auth params to a client instance
+ This should be done before making most api calls
+*/
 func (client *Client) Auth(login, key string) {
 	client.login = login
 	client.key = key
 }
 
 /*
- * Get a post by its id
- */
+ Get a post by its id
+*/
 func (client Client) GetPost(id int) (post Post, exists bool, err error) {
 	var json_bytes []byte
 	json_bytes, exists, err = client.get_if_exists(fmt.Sprintf("/posts/%d", id))
@@ -99,8 +99,8 @@ func (client Client) GetPost(id int) (post Post, exists bool, err error) {
 }
 
 /*
- * Get a post that matches some md5
- */
+ Get a post that matches some md5
+*/
 func (client Client) GetPostMD5(md5 string) (post Post, exists bool, err error) {
 	var q_strings map[string]string = map[string]string{
 		"md5": md5,
@@ -117,13 +117,13 @@ func (client Client) GetPostMD5(md5 string) (post Post, exists bool, err error) 
 }
 
 /*
- * Get a list of posts matching search parameters
- * tags: 	a list of tags to search for
- * raw: 	disable parsing tag alias parsing?
- * page:
- * limit:
- * random:
- */
+ Get a list of posts matching search parameters
+ tags: 	a list of tags to search for
+ raw: 	disable parsing tag alias parsing?
+ page:
+ limit:
+ random:
+*/
 func (client Client) GetPosts(tags []string, raw bool, page, limit int, random bool) (results []Post, err error) {
 	var q_strings map[string]string = map[string]string{
 		"tags": strings.Join(tags, "+"),
@@ -147,8 +147,8 @@ func (client Client) GetPosts(tags []string, raw bool, page, limit int, random b
 }
 
 /*
- * Get a user by their id
- */
+ Get a user by their id
+*/
 func (client Client) GetUser(id int) (user User, exists bool, err error) {
 	var json_bytes []byte
 	json_bytes, exists, err = client.get_if_exists(fmt.Sprintf("/users/%d", id))
@@ -161,33 +161,20 @@ func (client Client) GetUser(id int) (user User, exists bool, err error) {
 }
 
 /*
-
  Get a list of users matching a map of search parameters
 
  search: 	A map of user search terms defined by the danbooru api
-
  		   	These will be wrapped in a search[]
-
  	   	name: 			Name to search for
-
  	   	name_matches: 	Does the same thing as name
-
  	   	min_level: 		minimum level of users
-
  	   	max_level: 		maximum level of users
-
  	   	level: 			exact level of users
-
  	   	id: 			ID to search for
-
  	   	order: 			Search results order: Can be one of
-
  	   					name, post_upload_count, note_count,
-
  	   					post_update_count, date
-
  page:
-
  limit:
 */
 func (client Client) GetUsers(search map[string]string, page, limit int) (results []User, err error) {
@@ -209,8 +196,8 @@ func (client Client) GetUsers(search map[string]string, page, limit int) (result
 }
 
 /*
- * Get a pool by its id
- */
+ Get a pool by its id
+*/
 func (client Client) GetPool(id int) (pool Pool, exists bool, err error) {
 	var json_bytes []byte
 	json_bytes, exists, err = client.get_if_exists(fmt.Sprintf("/pools/%d", id))
@@ -223,8 +210,8 @@ func (client Client) GetPool(id int) (pool Pool, exists bool, err error) {
 }
 
 /*
- * Get the profile that this client is authed with
- */
+ Get the profile that this client is authed with
+*/
 func (client Client) GetProfile() (profile Profile, authed bool, err error) {
 	var json_bytes []byte
 	var code int
@@ -238,8 +225,8 @@ func (client Client) GetProfile() (profile Profile, authed bool, err error) {
 }
 
 /*
- * Get a comment by its id
- */
+ Get a comment by its id
+*/
 func (client Client) GetComment(id int) (comment Comment, exists bool, err error) {
 	var json_bytes []byte
 	json_bytes, exists, err = client.get_if_exists(fmt.Sprintf("/comments/%d", id))
@@ -252,10 +239,10 @@ func (client Client) GetComment(id int) (comment Comment, exists bool, err error
 }
 
 /*
- * Get related tags to some tag
- * tag:			the tag to query related tags of
- * category: 	can be one of any, general, artist, copyright, character
- */
+ Get related tags to some tag
+ tag:			the tag to query related tags of
+ category: 	can be one of any, general, artist, copyright, character
+*/
 func (client Client) GetRelatedTags(tag, category string) (related RelatedTagResponse, err error) {
 	var query map[string]string = map[string]string{
 		"query": tag,

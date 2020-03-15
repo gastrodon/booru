@@ -6,6 +6,9 @@ import (
 	"time"
 )
 
+/*
+ Represents a pool of posts on danbooru
+*/
 type Pool struct {
 	Client Client
 	ID     int    `json:"id"`
@@ -25,26 +28,26 @@ type Pool struct {
 }
 
 /*
- * Get a time object representing this pool's creation date
- */
+ Get a time object representing this pool's creation date
+*/
 func (pool Pool) CreatedAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(pool.CreatedDateString)
 	return
 }
 
 /*
-* Get a time object representing some pools last update time, if any
- */
+ Get a time object representing some pools last update time, if any
+*/
 func (pool Pool) UpdatedAt() (parsed *time.Time, err error) {
 	parsed, err = util.TimeFromPtr(pool.UpdatedDateString)
 	return
 }
 
 /*
- * Get posts (start -> stop) from this pool
- * Start should be >= 0
- * Stop should <= total post count (`Pool.PostCount`)
- */
+ Get posts (start -> stop) from this pool
+ Start should be >= 0
+ Stop should <= total post count (`Pool.PostCount`)
+*/
 func (pool Pool) PostsRange(start, stop int) (posts []Post, err error) {
 	posts = make([]Post, stop-start)
 

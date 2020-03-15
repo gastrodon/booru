@@ -15,9 +15,9 @@ type RelatedTagResponse struct {
 }
 
 /*
- * Parse a related tags response so that the tags
- * are sent to RelatedTag instances
- */
+ Parse a related tags response so that the tags
+ are sent to RelatedTag instances
+*/
 func (reciever *RelatedTagResponse) ParseTags() {
 	var related []RelatedTag = make([]RelatedTag, len(reciever.RelatedTagsRaw))
 
@@ -34,9 +34,9 @@ func (reciever *RelatedTagResponse) ParseTags() {
 }
 
 /*
- * Parse a related tags response so that the wiki tags
- * are sent to RelatedTag instances
- */
+ Parse a related tags response so that the wiki tags
+ are sent to RelatedTag instances
+*/
 func (reciever *RelatedTagResponse) ParseWikiTags() {
 	reciever.RelatedWikiTags = make([]RelatedTag, len(reciever.RelatedWikiTagsRaw))
 
