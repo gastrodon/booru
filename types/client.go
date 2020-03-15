@@ -161,21 +161,35 @@ func (client Client) GetUser(id int) (user User, exists bool, err error) {
 }
 
 /*
- * Get a list of users matching a map of search parameters
- * search: 	A map of user search terms defined by the danbooru api
- * 		   	These will be wrapped in a search[]
- * 	   	name: 			Name to search for
- * 	   	name_matches: 	Does the same thing as name
- * 	   	min_level: 		minimum level of users
- * 	   	max_level: 		maximum level of users
- * 	   	level: 			exact level of users
- * 	   	id: 			ID to search for
- * 	   	order: 			Search results order: Can be one of
- * 	   					name, post_upload_count, note_count,
- * 	   					post_update_count, date
- * page:
- * limit:
- */
+
+ Get a list of users matching a map of search parameters
+
+ search: 	A map of user search terms defined by the danbooru api
+
+ 		   	These will be wrapped in a search[]
+
+ 	   	name: 			Name to search for
+
+ 	   	name_matches: 	Does the same thing as name
+
+ 	   	min_level: 		minimum level of users
+
+ 	   	max_level: 		maximum level of users
+
+ 	   	level: 			exact level of users
+
+ 	   	id: 			ID to search for
+
+ 	   	order: 			Search results order: Can be one of
+
+ 	   					name, post_upload_count, note_count,
+
+ 	   					post_update_count, date
+
+ page:
+
+ limit:
+*/
 func (client Client) GetUsers(search map[string]string, page, limit int) (results []User, err error) {
 	search = util.WrapQS("search", search)
 
