@@ -66,6 +66,17 @@ func (client Client) get_request_body(endpoint string, query_strings ...map[stri
 }
 
 /*
+GET an api resource if it exists.
+If it does not, return an empty response
+*/
+func (client Client) get_if_exists(endpoint string, query_strings ...map[string]string) (json_bytes []byte, exists bool, err error) {
+	var code int
+	json_bytes, code, err = client.get_request_body(endpoint, query_strings...)
+	exists = code != 404 && code != 410
+	return
+}
+
+/*
  * Give auth params to a client instance
  * This should be done before making most api calls
  */
@@ -78,15 +89,12 @@ func (client *Client) Auth(login, key string) {
  * Get a post by its id
  */
 func (client Client) GetPost(id int) (post Post, exists bool, err error) {
-	var response_data []byte
-	var code int
-	response_data, code, err = client.get_request_body(fmt.Sprintf("/posts/%d", id), map[string]string{})
-	exists = code != 404 && code != 410
-	if err == nil && exists {
-		err = json.Unmarshal(response_data, &post)
+	var json_bytes []byte
+	json_bytes, exists, err = client.get_if_exists(fmt.Sprintf("/posts/%d", id))
+	if err == nil {
+		err = json.Unmarshal(json_bytes, &post)
 		post.Client = client
 	}
-
 	return
 }
 
@@ -98,12 +106,10 @@ func (client Client) GetPostMD5(md5 string) (post Post, exists bool, err error) 
 		"md5": md5,
 	}
 
-	var response_data []byte
-	var code int
-	response_data, code, err = client.get_request_body("/posts", q_strings)
-	exists = code != 404 && code != 410
-	if err == nil && exists {
-		err = json.Unmarshal(response_data, &post)
+	var json_bytes []byte
+	json_bytes, exists, err = client.get_if_exists("/posts", q_strings)
+	if err == nil {
+		err = json.Unmarshal(json_bytes, &post)
 		post.Client = client
 	}
 
@@ -124,13 +130,13 @@ func (client Client) GetPosts(tags []string, raw bool, page, limit int, random b
 		"raw":  fmt.Sprintf("%t", raw),
 	}
 
-	var response_data []byte
-	response_data, _, err = client.get_request_body("/posts", q_strings, util.CommonParams(page, limit, random))
+	var json_bytes []byte
+	json_bytes, _, err = client.get_if_exists("/posts", q_strings, util.CommonParams(page, limit, random))
 	if err != nil {
 		return
 	}
 
-	err = json.Unmarshal(response_data, &results)
+	err = json.Unmarshal(json_bytes, &results)
 
 	var index int
 	for index, _ = range results {
@@ -144,12 +150,10 @@ func (client Client) GetPosts(tags []string, raw bool, page, limit int, random b
  * Get a user by their id
  */
 func (client Client) GetUser(id int) (user User, exists bool, err error) {
-	var response_data []byte
-	var code int
-	response_data, code, err = client.get_request_body(fmt.Sprintf("/users/%d", id), map[string]string{})
-	exists = code != 404 && code != 410
-	if err == nil && exists {
-		err = json.Unmarshal(response_data, &user)
+	var json_bytes []byte
+	json_bytes, exists, err = client.get_if_exists(fmt.Sprintf("/users/%d", id))
+	if err == nil {
+		err = json.Unmarshal(json_bytes, &user)
 		user.Client = client
 	}
 
@@ -175,13 +179,13 @@ func (client Client) GetUser(id int) (user User, exists bool, err error) {
 func (client Client) GetUsers(search map[string]string, page, limit int) (results []User, err error) {
 	search = util.WrapQS("search", search)
 
-	var response_data []byte
-	response_data, _, err = client.get_request_body("/users", search, util.CommonParams(page, limit, false))
+	var json_bytes []byte
+	json_bytes, _, err = client.get_if_exists("/users", search, util.CommonParams(page, limit, false))
 	if err != nil {
 		return
 	}
 
-	err = json.Unmarshal(response_data, &results)
+	err = json.Unmarshal(json_bytes, &results)
 
 	var index int
 	for index, _ = range results {
@@ -194,12 +198,10 @@ func (client Client) GetUsers(search map[string]string, page, limit int) (result
  * Get a pool by its id
  */
 func (client Client) GetPool(id int) (pool Pool, exists bool, err error) {
-	var response_data []byte
-	var code int
-	response_data, code, err = client.get_request_body(fmt.Sprintf("/pools/%d", id), map[string]string{})
-	exists = code != 404 && code != 410
-	if err == nil && exists {
-		err = json.Unmarshal(response_data, &pool)
+	var json_bytes []byte
+	json_bytes, exists, err = client.get_if_exists(fmt.Sprintf("/pools/%d", id))
+	if err == nil {
+		err = json.Unmarshal(json_bytes, &pool)
 		pool.Client = client
 	}
 
@@ -210,12 +212,12 @@ func (client Client) GetPool(id int) (pool Pool, exists bool, err error) {
  * Get the profile that this client is authed with
  */
 func (client Client) GetProfile() (profile Profile, authed bool, err error) {
-	var response_data []byte
+	var json_bytes []byte
 	var code int
-	response_data, code, err = client.get_request_body("/profile", map[string]string{})
+	json_bytes, code, err = client.get_request_body("/profile")
 	authed = code == 200
 	if err == nil && authed {
-		err = json.Unmarshal(response_data, &profile)
+		err = json.Unmarshal(json_bytes, &profile)
 		profile.Client = client
 	}
 	return
@@ -225,12 +227,10 @@ func (client Client) GetProfile() (profile Profile, authed bool, err error) {
  * Get a comment by its id
  */
 func (client Client) GetComment(id int) (comment Comment, exists bool, err error) {
-	var response_data []byte
-	var code int
-	response_data, code, err = client.get_request_body(fmt.Sprintf("/comments/%d", id), map[string]string{})
-	exists = code != 404 && code != 410
-	if err == nil && exists {
-		err = json.Unmarshal(response_data, &comment)
+	var json_bytes []byte
+	json_bytes, exists, err = client.get_if_exists(fmt.Sprintf("/comments/%d", id))
+	if err == nil {
+		err = json.Unmarshal(json_bytes, &comment)
 		comment.Client = client
 	}
 
@@ -252,7 +252,7 @@ func (client Client) GetRelatedTags(tag, category string) (related RelatedTagRes
 	}
 
 	var response_data []byte
-	response_data, _, err = client.get_request_body("/related_tag", query)
+	response_data, _, err = client.get_if_exists("/related_tag", query)
 	if err == nil {
 		err = json.Unmarshal(response_data, &related)
 	}
